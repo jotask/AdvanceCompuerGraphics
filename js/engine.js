@@ -6,6 +6,14 @@ var webGLRenderer;
 var clock;
 var stats;
 
+var assets;
+
+function load(){
+
+    init();
+
+}
+
 function init(){
 
 
