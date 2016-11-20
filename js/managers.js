@@ -3,17 +3,14 @@
  */
 function GameStateManager(){
 
-    this.update = function(){
+    var state = new SimulationState();
 
-    }
+    this.update = function(){
+        state.update();
+    };
 
     this.render = function(){
-
-
-    }
-
-}
-
-function AssetManager(){
+        state.render();
+    };
 
 }
