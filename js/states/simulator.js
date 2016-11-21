@@ -31,22 +31,6 @@ function SimulationState(){
 
     var player = new Player(camera);
 
-    // var geometry = new THREE.BoxBufferGeometry( 5, 5, 5 );
-    // var material = new THREE.MeshLambertMaterial( {color: 0x00ffff} );
-    // var mesh = new THREE.Mesh( geometry, material );
-    // mesh.position.set(0,0,0);
-    // scene.add( mesh );
-
-    // // add ground
-    // var groundGeo = new THREE.PlaneBufferGeometry( 500, 500 );
-    // var groundMat = new THREE.MeshPhongMaterial( { color: 0xffffff, specular: 0x050505 } );
-    // groundMat.color.setHSL( 0.095, 1, 0.75 );
-    // var ground = new THREE.Mesh( groundGeo, groundMat );
-    // ground.rotation.x = -Math.PI/2;
-    // ground.position.y = -2;
-    // scene.add( ground );
-    // ground.receiveShadow = true;
-
     var grid = new THREE.GridHelper(300, 10);
     scene.add(grid);
     

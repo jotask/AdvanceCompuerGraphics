@@ -23,6 +23,7 @@ function init(){
     webGLRenderer.shadowMap.enabled = true;
     webGLRenderer.gammaInput = true;
     webGLRenderer.gammaOutput = true;
+    webGLRenderer.setPixelRatio(window.devicePixelRatio);
     webGLRenderer.shadowMap.renderReverseSided = false;
     document.body.appendChild(webGLRenderer.domElement);
 
