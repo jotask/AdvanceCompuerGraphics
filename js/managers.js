@@ -43,10 +43,15 @@ function AssetManager(){
             url: 'grass.jpg',
             scale: 100,
             val: undefined
+        },
+        roof: {
+            url: 'roof.jpg',
+            scale: 0.05,
+            val: undefined
         }
     };
 
-    const toLoad = 4;
+    const toLoad = 5;
 
     this.load = function(){
 
@@ -54,6 +59,7 @@ function AssetManager(){
         loadTexture(this.textures.wall);
         loadTexture(this.textures.wood);
         loadTexture(this.textures.grass);
+        loadTexture(this.textures.roof);
 
     };
 

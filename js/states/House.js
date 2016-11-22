@@ -14,9 +14,17 @@ function House(scene){
 
     new Passage(this.group);
 
+    new Roof(this.group);
+
     this.group.position.set(-50,0.5,0);
 
     scene.add(this.group);
+
+}
+
+function Roof(scene){
+
+    
 
 }
 
