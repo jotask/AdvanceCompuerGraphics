@@ -9,13 +9,21 @@ var stats;
 var assets;
 
 function load(){
+    assets = new AssetManager();
 
-    init();
+    assets.load();
+
+    var millisecondsToWait = 500;
+
+    setTimeout(function() {
+        if(assets.isFinished()){
+            init();
+        }
+    }, millisecondsToWait);
 
 }
 
 function init(){
-
 
     webGLRenderer = new THREE.WebGLRenderer();
     //webGLRenderer.setClearColor(new THREE.Color(0x000, 1.0));

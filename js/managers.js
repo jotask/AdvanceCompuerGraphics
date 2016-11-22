@@ -14,3 +14,57 @@ function GameStateManager(){
     };
 
 }
+
+function AssetManager(){
+
+    const folder = "assets/";
+
+    var loader = new THREE.TextureLoader();
+
+    var loaded = 0;
+
+    this.textures = {
+        floor: {
+            url: 'carpet.jpg',
+            scale: 0.05,
+            val: undefined
+        },
+        wall: {
+            url: 'wall.jpg',
+            scale: 0.05,
+            val: undefined
+        },
+        wood: {
+            url: 'wood.jpg',
+            scale: 0.05,
+            val: undefined
+        }
+    };
+
+    const toLoad = 3;
+
+    this.load = function(){
+
+        loadTexture(this.textures.floor);
+        loadTexture(this.textures.wall);
+        loadTexture(this.textures.wood);
+
+    };
+
+    this.isFinished = function(){
+
+        if(loaded === toLoad) return true;
+
+        return false;
+    };
+
+    function loadTexture(url) {
+        loader.load(folder + url.url, function (text) {
+            text.wrapS = text.wrapT = THREE.MirroredRepeatWrapping;
+            text.repeat.set(url.scale, url.scale);
+            url.val = text;
+            loaded++;
+        });
+    }
+
+}
