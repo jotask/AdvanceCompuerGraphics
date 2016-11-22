@@ -3,6 +3,8 @@
  */
 function SimulationState(){
 
+    var player = new Player();
+
     var scene = new THREE.Scene();
     scene.fog = new THREE.Fog( 0xffffff, 1, 5000 );
     scene.fog.color.setHSL( 0.6, 0, 1 );
@@ -24,14 +26,12 @@ function SimulationState(){
 
     function onWindowResize(){
 
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
+        player.camera.aspect = window.innerWidth / window.innerHeight;
+        player.camera.updateProjectionMatrix();
 
         webGLRenderer.setSize( window.innerWidth, window.innerHeight );
 
     }
-
-    var player = new Player();
 
     var world = new World(scene);
     var garden = new Garden(scene);
