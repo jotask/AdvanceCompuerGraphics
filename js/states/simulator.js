@@ -15,7 +15,7 @@ function SimulationState(){
 
     var camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 500 );
     camera.position.set(50,10,100);
-    camera.position.set(50,200,100);
+    // camera.position.set(50,200,100);
     // camera.lookAt(scene.position);
     camera.lookAt(new THREE.Vector3(100,0,100));
 
@@ -39,7 +39,7 @@ function SimulationState(){
 
     this.update = function(){
         // FIXME uncomment this line
-        // player.update()
+        player.update()
     };
 
     this.render = function(){
