@@ -4,20 +4,21 @@
 function SimulationState(){
 
     var scene = new THREE.Scene();
-    scene.fog = new THREE.Fog( 0xaaaaaa, 500, 1500 );
-    
-    // axes
-    var axes = new THREE.AxisHelper(1000);
-    scene.add( axes );
+    scene.fog = new THREE.Fog( 0xffffff, 1, 5000 );
+    scene.fog.color.setHSL( 0.6, 0, 1 );
+
+    if(DEBUG) {
+        // Add the axes
+        var axes = new THREE.AxisHelper(1000);
+        scene.add(axes);
+
+        // Add the grid for the world
+        var grid = new THREE.GridHelper(300, 10);
+        scene.add(grid);
+    }
 
     var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(ambientLight);
-
-    var camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 500 );
-    camera.position.set(30, 17, 150);
-    camera.position.set(27, 10, 78);
-    // camera.lookAt(scene.position);
-    camera.lookAt(new THREE.Vector3(27,10,200));
 
     window.addEventListener( 'resize', onWindowResize, false );
 
@@ -30,21 +31,20 @@ function SimulationState(){
 
     }
 
-    var player = new Player(camera);
+    var player = new Player();
 
-    var grid = new THREE.GridHelper(300, 10);
-    scene.add(grid);
-    
+    var world = new World(scene);
+    var garden = new Garden(scene);
     var house = new House(scene);
 
     this.update = function(){
         // FIXME uncomment this line
-        // player.update();
-        console.log(camera.position.x + " - " + camera.position.z);
+        player.update();
+        // console.log(camera.position.x + " - " + camera.position.z);
     };
 
     this.render = function(){
-        webGLRenderer.render(scene, camera);
+        webGLRenderer.render(scene, player.camera);
     };
 
 }

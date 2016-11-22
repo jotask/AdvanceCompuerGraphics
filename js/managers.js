@@ -38,16 +38,22 @@ function AssetManager(){
             url: 'wood.jpg',
             scale: 0.05,
             val: undefined
+        },
+        grass: {
+            url: 'grass.jpg',
+            scale: 100,
+            val: undefined
         }
     };
 
-    const toLoad = 3;
+    const toLoad = 4;
 
     this.load = function(){
 
         loadTexture(this.textures.floor);
         loadTexture(this.textures.wall);
         loadTexture(this.textures.wood);
+        loadTexture(this.textures.grass);
 
     };
 

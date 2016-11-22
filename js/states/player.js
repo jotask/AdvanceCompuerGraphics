@@ -3,9 +3,13 @@
  */
 function Player(camera){
 
-    var camControls = new THREE.FirstPersonControls(camera);
+    this.camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
+    this.camera.position.set(100, 50, 100);
+    this.camera.lookAt(new THREE.Vector3(0,0,0));
+
+    var camControls = new THREE.FirstPersonControls(this.camera);
     camControls.lookSpeed = 0.4;
-    camControls.movementSpeed = 20;
+    camControls.movementSpeed = 100;
     camControls.noFly = false;
     camControls.lookVertical = true;
     camControls.constrainVertical = true;

@@ -1,6 +1,9 @@
 /**
  * Created by Jota on 18/11/2016.
  */
+
+const DEBUG = true;
+
 var gsm;
 var webGLRenderer;
 var clock;
