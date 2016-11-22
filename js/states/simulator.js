@@ -14,10 +14,10 @@ function SimulationState(){
     scene.add(ambientLight);
 
     var camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 500 );
-    camera.position.set(50,10,100);
-    // camera.position.set(50,200,100);
+    camera.position.set(30, 17, 150);
+    camera.position.set(27, 10, 78);
     // camera.lookAt(scene.position);
-    camera.lookAt(new THREE.Vector3(100,0,100));
+    camera.lookAt(new THREE.Vector3(27,10,200));
 
     window.addEventListener( 'resize', onWindowResize, false );
 
@@ -39,7 +39,8 @@ function SimulationState(){
 
     this.update = function(){
         // FIXME uncomment this line
-        player.update()
+        // player.update();
+        console.log(camera.position.x + " - " + camera.position.z);
     };
 
     this.render = function(){
