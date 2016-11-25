@@ -101,10 +101,11 @@ function LivingRoom(obj){
     door.position.setX(27.55);
     door.position.setZ(35.5);
     door.position.setY(-0.55);
+    door.castShadow = true;
 
     var light = new THREE.PointLight(0xffffff, 0.5);
     light.position.set(10, 10, 10);
-    obj.lights.push(light);
+    // obj.lights.push(light);
     if(DEBUG) {
         obj.lights.push(new THREE.PointLightHelper(light, 3));
     }

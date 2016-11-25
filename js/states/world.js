@@ -16,7 +16,7 @@ function Sun(obj){
     hemiLight.groundColor.setHSL( 0.095, 1, 0.75 );
     // FIXME Original position y=500
     hemiLight.position.set( 0, 500, 0 );
-    obj.lights.push( hemiLight );
+    // obj.lights.push( hemiLight );
     if(DEBUG) {
         obj.lights.push(new THREE.HemisphereLightHelper(hemiLight, 10));
     }
@@ -29,8 +29,8 @@ function Sun(obj){
     dirLight.position.multiplyScalar( 50 );
     dirLight.castShadow = true;
     dirLight.receiveShadow = true;
-    // dirLight.shadow.mapSize.width = 2048;
-    // dirLight.shadow.mapSize.height = 2048;
+    dirLight.shadow.mapSize.width = 2048;
+    dirLight.shadow.mapSize.height = 2048;
     obj.lights.push( dirLight );
     if(DEBUG) {
         obj.lights.push(new THREE.DirectionalLightHelper(dirLight, 10));

@@ -39,18 +39,20 @@ function SimulationState(){
     var world = new World(obj);
     var garden = new Garden(obj);
 
-    var l = new THREE.PointLight(0xff0000, 10);
+    var l = new THREE.PointLight(0xffffff, 10);
     l.position.set(100, 100, 0);
+    // l.shadowCameraVisible = true;
     l.castShadow = true;
-    // scene.add(l);
-    // scene.add(new THREE.PointLightHelper(l,3));
+    // l.shadow.mapSize.width = 2048;
+    // l.shadow.mapSize.height = 2048;
+    scene.add(l);
+    scene.add(new THREE.PointLightHelper(l,3));
 
     obj.addToScene(scene);
 
     this.update = function(){
         // FIXME uncomment this line
         player.update();
-        // console.log(camera.position.x + " - " + camera.position.z);
     };
 
     this.render = function(){

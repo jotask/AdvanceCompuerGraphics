@@ -98,9 +98,15 @@ function AssetManager(){
             dae.scale.x = url.scale2.x;
             dae.scale.y = url.scale2.z;
             dae.scale.z = url.scale2.y;
+
+            dae.traverse( function ( child ) {
+                if ( child instanceof THREE.Mesh ) {
+                    child.castShadow = true;
+                    child.receiveShadow = true;
+                }
+            } );
+
             dae.updateMatrix();
-            dae.receiveShadow = true;
-            dae.castShadow = true;
             url.val = dae;
             modelsLoaded++;
         });
