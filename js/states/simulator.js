@@ -21,7 +21,7 @@ function SimulationState(){
         scene.add(grid);
     }
 
-    var ambientLight = new THREE.AmbientLight(0xffffff, 0.05);
+    var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
     obj.lights.push(ambientLight);
 
     window.addEventListener( 'resize', onWindowResize, false );
@@ -37,14 +37,13 @@ function SimulationState(){
 
     var house = new House(obj);
     var world = new World(obj);
-    var garden = new Garden(obj);
 
-    var l = new THREE.PointLight(0xffffff, 10);
-    l.position.set(100, 100, 0);
-    // l.shadowCameraVisible = true;
+    var l = new THREE.PointLight(0xffffff, 5);
+    l.position.set(100, 100, 100);
+    l.shadowCameraVisible = true;
     l.castShadow = true;
-    // l.shadow.mapSize.width = 2048;
-    // l.shadow.mapSize.height = 2048;
+    l.shadow.mapSize.width = 2048;
+    l.shadow.mapSize.height = 2048;
     scene.add(l);
     scene.add(new THREE.PointLightHelper(l,3));
 

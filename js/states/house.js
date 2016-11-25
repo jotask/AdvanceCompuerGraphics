@@ -11,9 +11,9 @@ function House(obj){
     // new BedRoomTwo(this.group);
     // new BathRoom(this.group);
     // new Kitchen(this.group);
-
+    //
     // new Passage(this.group);
-
+    //
     // new Roof(this.group);
 
     // this.group.position.set(80,10.5,100);
