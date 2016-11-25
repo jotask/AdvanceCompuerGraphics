@@ -3,11 +3,13 @@
  */
 function SimulationState(){
 
-    var player = new Player();
-
     var scene = new THREE.Scene();
     scene.fog = new THREE.Fog( 0xffffff, 1, 5000 );
     scene.fog.color.setHSL( 0.6, 0, 1 );
+
+    var obj = new Objects(scene);
+
+    var player = new Player();
 
     if(DEBUG) {
         // Add the axes
@@ -19,8 +21,8 @@ function SimulationState(){
         scene.add(grid);
     }
 
-    var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-    scene.add(ambientLight);
+    var ambientLight = new THREE.AmbientLight(0xffffff, 0.05);
+    obj.lights.push(ambientLight);
 
     window.addEventListener( 'resize', onWindowResize, false );
 
@@ -33,9 +35,17 @@ function SimulationState(){
 
     }
 
-    var world = new World(scene);
-    var garden = new Garden(scene);
-    var house = new House(scene);
+    var house = new House(obj);
+    var world = new World(obj);
+    var garden = new Garden(obj);
+
+    var l = new THREE.PointLight(0xff0000, 10);
+    l.position.set(100, 100, 0);
+    l.castShadow = true;
+    // scene.add(l);
+    // scene.add(new THREE.PointLightHelper(l,3));
+
+    obj.addToScene(scene);
 
     this.update = function(){
         // FIXME uncomment this line

@@ -2,50 +2,121 @@
  * Created by Jota on 20/11/2016.
  */
 
-function House(scene){
+function House(obj){
 
-    this.group = new THREE.Group();
+    var o = new Objects(obj.scene);
 
-    new LivingRoom(this.group);
-    new BedRoomOne(this.group);
-    new BedRoomTwo(this.group);
-    new BathRoom(this.group);
-    new Kitchen(this.group);
+    new LivingRoom(obj);
+    // new BedRoomOne(this.group);
+    // new BedRoomTwo(this.group);
+    // new BathRoom(this.group);
+    // new Kitchen(this.group);
 
-    new Passage(this.group);
+    // new Passage(this.group);
 
-    new Roof(this.group);
+    // new Roof(this.group);
 
-    this.group.position.set(-50,0.5,0);
+    // this.group.position.set(80,10.5,100);
 
-    scene.add(this.group);
+    obj.addObjects(o);
 
 }
 
 function Roof(scene){
 
-    
+    // FIXME fix the roof
+
+    this.group = new THREE.Group();
+
+    const length = 105;
+    const height = 50;
+
+    var material = new THREE.MeshLambertMaterial( { map: assets.textures.roof.val, side: THREE.DoubleSide } );
+
+    var geometry = new THREE.PlaneBufferGeometry(length, height);
+
+    var p1 = new THREE.Mesh(geometry, material);
+
+    p1.position.setX(-height / 2.85);
+    p1.receiveShadow = true;
+    p1.castShadow = true;
+
+    var p2 = new THREE.Mesh(geometry, material);
+    p2.position.setX(+(height / 2.85));
+    p2.receiveShadow = true;
+    p2.castShadow = true;
+
+    rotateObject( p1, 0, 90 ,0);
+    rotateObject( p1, 45, 0 ,0);
+
+    rotateObject( p2, 0, 90 ,0);
+    rotateObject( p2, -45, 0 ,0);
+
+    this.group.add(p1);
+    this.group.add(p2);
+
+    this.group.position.set(25, 35, 48);
+
+    this.group.updateMatrix();
+    this.group.updateMatrixWorld();
+
+    scene.add(this.group);
 
 }
 
-function LivingRoom(scene){
+function rotateObject(object,degreeX, degreeY, degreeZ){
+
+    degreeX = (degreeX * Math.PI)/180;
+    degreeY = (degreeY * Math.PI)/180;
+    degreeZ = (degreeZ * Math.PI)/180;
+
+    object.rotateX(degreeX);
+    object.rotateY(degreeY);
+    object.rotateZ(degreeZ);
+
+}
+
+
+function LivingRoom(obj){
+
+    var group = new THREE.Group();
 
     var config = new RoomDef();
 
     config.size.set(50, 35);
 
-    // config.windows.push(new config.Window(10, 5, 20, 15));
-    // config.windows.push(new config.Window(50, 5, 40, 15));
-    //
-    // config.WALLS.LEFT.TYPE = config.WALLTYPE.WINDOW;
-    // config.WALLS.LEFT.w = [0, 1];
+    config.windows.push(new config.Window(10, 5, 9, 15));
+    config.windows.push(new config.Window(30, 5, 9, 15));
+
+    config.WALLS.FRONT.TYPE = config.WALLTYPE.WINDOW;
+    config.WALLS.FRONT.w = [0];
+
+    config.WALLS.LEFT.TYPE = config.WALLTYPE.WINDOW;
+    config.WALLS.LEFT.w = [0,1];
 
     config.WALLS.RIGHT.TYPE = config.WALLTYPE.DOOR;
     config.offsetX = 23;
 
-    var room = new Room(config);
+    var door = assets.models.door.val;
+    door.position.setX(27.55);
+    door.position.setZ(35.5);
+    door.position.setY(-0.55);
 
-    scene.add(room.group);
+    var light = new THREE.PointLight(0xffffff, 0.5);
+    light.position.set(10, 10, 10);
+    obj.lights.push(light);
+    if(DEBUG) {
+        obj.lights.push(new THREE.PointLightHelper(light, 3));
+    }
+
+    group.add(door);
+
+    var room = new Room(config);
+    group.add(room.group);
+
+    group.position.setY(0.5);
+
+    obj.meshes.push(group);
 
 }
 
@@ -189,7 +260,7 @@ function Room(config){
     var celling = createWall(cfg.size.x + cfg.wallDepth - 0.1, cfg.size.y + cfg.wallDepth - 0.1, cfg.materials.CELLING);
     celling.rotation.x = Math.PI/2;
     celling.position.setY(cfg.cellingSize + 1);
-    this.group.add(celling);
+    // this.group.add(celling);
 
     if(cfg.WALLS.LEFT.TYPE !== cfg.WALLTYPE.EMPTY) {
         var leftWall = create(cfg.WALLS.LEFT);

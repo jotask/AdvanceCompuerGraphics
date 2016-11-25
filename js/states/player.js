@@ -4,8 +4,8 @@
 function Player(camera){
 
     this.camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
-    this.camera.position.set(100, 50, 100);
-    this.camera.lookAt(new THREE.Vector3(0,0,0));
+    this.camera.position.set(27, 10, 14);
+    this.camera.lookAt(new THREE.Vector3(27, 10, 80));
 
     var camControls = new THREE.FirstPersonControls(this.camera);
     camControls.lookSpeed = 0.4;
@@ -20,10 +20,8 @@ function Player(camera){
 
     this.update = function(){
         camControls.update(clock.getDelta());
-    };
-
-    this.render = function(){
-
+        // var p = this.camera.position;
+        // console.log(p.x + " - " + p.z);
     };
 
 }

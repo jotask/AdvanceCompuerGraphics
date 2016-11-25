@@ -17,11 +17,19 @@ function GameStateManager(){
 
 function AssetManager(){
 
-    const folder = "assets/";
+    const folderModels = "assets/models/";
+    const folderTextures = "assets/textures/";
 
-    var loader = new THREE.TextureLoader();
+    var manager = new THREE.LoadingManager();
+    // manager.onProgress = function ( item, loaded, total ) {
+    //     console.log( item, loaded, total );
+    // };
 
-    var loaded = 0;
+    var textureLoader = new THREE.TextureLoader(manager);
+    var modelLoader = new THREE.ColladaLoader(manager);
+
+    var textureLoaded = 0;
+    var modelsLoaded = 0;
 
     this.textures = {
         floor: {
@@ -46,12 +54,21 @@ function AssetManager(){
         },
         roof: {
             url: 'roof.jpg',
-            scale: 0.05,
+            scale: 3,
             val: undefined
         }
     };
 
-    const toLoad = 5;
+    this.models = {
+        door: {
+            url : 'door/Door.dae',
+            scale2:{ x: 1.15, y: 1.65, z: 1.5},
+            val: undefined
+        }
+    };
+
+    const texturesToLoad = 5;
+    const modelsToLoad = 1;
 
     this.load = function(){
 
@@ -61,21 +78,41 @@ function AssetManager(){
         loadTexture(this.textures.grass);
         loadTexture(this.textures.roof);
 
+        loadModel(this.models.door);
+
     };
 
     this.isFinished = function(){
 
-        if(loaded === toLoad) return true;
+        if(textureLoaded === texturesToLoad && modelsLoaded === modelsToLoad) return true;
 
         return false;
+
     };
 
+    function loadModel(url){
+
+        modelLoader.load(folderModels + url.url, function ( collada ) {
+            var dae = collada.scene;
+            // dae.scale.x = dae.scale.y = dae.scale.z = url.scale;
+            dae.scale.x = url.scale2.x;
+            dae.scale.y = url.scale2.z;
+            dae.scale.z = url.scale2.y;
+            dae.updateMatrix();
+            dae.receiveShadow = true;
+            dae.castShadow = true;
+            url.val = dae;
+            modelsLoaded++;
+        });
+
+    }
+
     function loadTexture(url) {
-        loader.load(folder + url.url, function (text) {
+        textureLoader.load(folderTextures + url.url, function (text) {
             text.wrapS = text.wrapT = THREE.MirroredRepeatWrapping;
             text.repeat.set(url.scale, url.scale);
             url.val = text;
-            loaded++;
+            textureLoaded++;
         });
     }
 

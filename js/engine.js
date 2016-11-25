@@ -11,6 +11,42 @@ var stats;
 
 var assets;
 
+function Objects(sce){
+
+    this.scene = sce;
+
+    this.meshes = [];
+    this.lights = [];
+
+    this.addToScene = function(){
+
+        console.log(this.meshes.length + " - " + this.lights.length);
+
+        for(var i = 0; i < this.meshes.length; i++){
+            this.scene.add(this.meshes[i]);
+        }
+
+        for(var i = 0; i < this.lights.length; i++){
+            this.scene.add(this.lights[i]);
+        }
+
+    };
+
+    this.addObjects = function(obj){
+
+        console.log(obj.meshes.length + " - " + obj.lights.length);
+
+        for(var i = 0; i < obj.meshes.length; i++){
+            this.scene.add(obj.meshes[i]);
+        }
+
+        for(var i = 0; i < obj.lights.length; i++){
+            this.scene.add(obj.lights[i]);
+        }
+    }
+    
+}
+
 function load(){
     assets = new AssetManager();
 

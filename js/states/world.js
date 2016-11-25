@@ -1,13 +1,13 @@
 /**
  * Created by Jota on 22/11/2016.
  */
-function World(scene){
+function World(obj){
 
-    new Sun(scene);
+    new Sun(obj);
 
 }
 
-function Sun(scene){
+function Sun(obj){
 
     // LIGHTS
 
@@ -16,9 +16,9 @@ function Sun(scene){
     hemiLight.groundColor.setHSL( 0.095, 1, 0.75 );
     // FIXME Original position y=500
     hemiLight.position.set( 0, 500, 0 );
-    scene.add( hemiLight );
+    obj.lights.push( hemiLight );
     if(DEBUG) {
-        scene.add(new THREE.HemisphereLightHelper(hemiLight, 10));
+        obj.lights.push(new THREE.HemisphereLightHelper(hemiLight, 10));
     }
 
     //
@@ -28,14 +28,15 @@ function Sun(scene){
     dirLight.position.set( -1, 1.75, 1 );
     dirLight.position.multiplyScalar( 50 );
     dirLight.castShadow = true;
-    dirLight.shadow.mapSize.width = 2048;
-    dirLight.shadow.mapSize.height = 2048;
-    scene.add( dirLight );
+    dirLight.receiveShadow = true;
+    // dirLight.shadow.mapSize.width = 2048;
+    // dirLight.shadow.mapSize.height = 2048;
+    obj.lights.push( dirLight );
     if(DEBUG) {
-        scene.add(new THREE.DirectionalLightHelper(dirLight, 10));
+        obj.lights.push(new THREE.DirectionalLightHelper(dirLight, 10));
     }
 
-    var d = 100;
+    var d = 1000000;
 
     dirLight.shadow.camera.left = -d;
     dirLight.shadow.camera.right = d;
@@ -57,12 +58,12 @@ function Sun(scene){
     };
     uniforms.topColor.value.copy( hemiLight.color );
 
-    scene.fog.color.copy( uniforms.bottomColor.value );
+    obj.scene.fog.color.copy( uniforms.bottomColor.value );
 
     var skyGeo = new THREE.SphereGeometry( 4000, 32, 15 );
     var skyMat = new THREE.ShaderMaterial( { vertexShader: vertexShader, fragmentShader: fragmentShader, uniforms: uniforms, side: THREE.BackSide } );
 
     var sky = new THREE.Mesh( skyGeo, skyMat );
-    scene.add( sky );
+    obj.meshes.push( sky );
 
 }
