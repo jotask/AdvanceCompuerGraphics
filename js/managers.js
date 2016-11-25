@@ -67,8 +67,8 @@ function AssetManager(){
         }
     };
 
-    const texturesToLoad = 5;
-    const modelsToLoad = 1;
+    const texturesToLoad = Object.keys(this.textures).length;
+    const modelsToLoad = Object.keys(this.models).length;
 
     this.load = function(){
 
@@ -94,7 +94,6 @@ function AssetManager(){
 
         modelLoader.load(folderModels + url.url, function ( collada ) {
             var dae = collada.scene;
-            // dae.scale.x = dae.scale.y = dae.scale.z = url.scale;
             dae.scale.x = url.scale2.x;
             dae.scale.y = url.scale2.z;
             dae.scale.z = url.scale2.y;

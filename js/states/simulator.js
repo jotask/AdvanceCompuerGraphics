@@ -39,11 +39,10 @@ function SimulationState(){
     var world = new World(obj);
 
     var l = new THREE.PointLight(0xffffff, 5);
-    l.position.set(100, 100, 100);
-    l.shadowCameraVisible = true;
+    l.position.set(0, 100, 0);
     l.castShadow = true;
-    l.shadow.mapSize.width = 2048;
-    l.shadow.mapSize.height = 2048;
+    l.shadow.mapSize.width = 1024;
+    l.shadow.mapSize.height = 1024;
     scene.add(l);
     scene.add(new THREE.PointLightHelper(l,3));
 

@@ -4,21 +4,23 @@
 
 function House(obj){
 
-    var o = new Objects(obj.scene);
+    var group = new THREE.Group();
+    var lights = new THREE.Group();
 
-    new LivingRoom(obj);
-    // new BedRoomOne(this.group);
-    // new BedRoomTwo(this.group);
-    // new BathRoom(this.group);
-    // new Kitchen(this.group);
-    //
-    // new Passage(this.group);
-    //
-    // new Roof(this.group);
+    new LivingRoom(group, lights);
+    new BedRoomOne(group, lights);
+    new BedRoomTwo(group, lights);
+    new BathRoom(group, lights);
+    new Kitchen(group, lights);
 
-    // this.group.position.set(80,10.5,100);
+    new Passage(group, lights);
 
-    obj.addObjects(o);
+    new Roof(group, lights);
+
+    group.position.set(80,10.5,100);
+
+    obj.meshes.push(group);
+    obj.lights.push(lights);
 
 }
 
@@ -77,7 +79,7 @@ function rotateObject(object,degreeX, degreeY, degreeZ){
 }
 
 
-function LivingRoom(obj){
+function LivingRoom(g, l){
 
     var group = new THREE.Group();
 
@@ -87,9 +89,10 @@ function LivingRoom(obj){
 
     config.windows.push(new config.Window(10, 5, 9, 15));
     config.windows.push(new config.Window(30, 5, 9, 15));
+    config.windows.push(new config.Window(5, 5, 25, 15));
 
     config.WALLS.FRONT.TYPE = config.WALLTYPE.WINDOW;
-    config.WALLS.FRONT.w = [0];
+    config.WALLS.FRONT.w = [2];
 
     config.WALLS.LEFT.TYPE = config.WALLTYPE.WINDOW;
     config.WALLS.LEFT.w = [0,1];
@@ -97,31 +100,26 @@ function LivingRoom(obj){
     config.WALLS.RIGHT.TYPE = config.WALLTYPE.DOOR;
     config.offsetX = 23;
 
+    config.WALLS.BACK.TYPE = config.WALLTYPE.WINDOW;
+    config.WALLS.BACK.w = [2];
+
     var door = assets.models.door.val;
     door.position.setX(27.55);
     door.position.setZ(35.5);
     door.position.setY(-0.55);
-    door.castShadow = true;
-
-    var light = new THREE.PointLight(0xffffff, 0.5);
-    light.position.set(10, 10, 10);
-    // obj.lights.push(light);
-    if(DEBUG) {
-        obj.lights.push(new THREE.PointLightHelper(light, 3));
-    }
 
     group.add(door);
 
     var room = new Room(config);
     group.add(room.group);
 
-    group.position.setY(0.5);
-
-    obj.meshes.push(group);
+    g.add(group);
 
 }
 
-function Passage(scene){
+function Passage(g, l){
+
+    var group = new THREE.Group();
 
     var config = new RoomDef();
 
@@ -137,11 +135,15 @@ function Passage(scene){
     var room = new Room(config);
     room.group.position.set(20, 0, 35);
 
-    scene.add(room.group);
+    group.add(room.group);
+
+    g.add(group);
 
 }
 
-function BedRoomOne(scene){
+function BedRoomOne(g, l){
+
+    var group = new THREE.Group();
 
     var config = new RoomDef();
 
@@ -153,11 +155,15 @@ function BedRoomOne(scene){
     var room = new Room(config);
     room.group.position.set(0, 0, 35.5);
 
-    scene.add(room.group);
+    group.add(room.group);
+
+    g.add(group);
 
 }
 
-function BedRoomTwo(scene){
+function BedRoomTwo(g, l){
+
+    var group = new THREE.Group();
 
     var config = new RoomDef();
 
@@ -169,11 +175,15 @@ function BedRoomTwo(scene){
     var room = new Room(config);
     room.group.position.set(0.0005, 0, 65);
 
-    scene.add(room.group);
+    group.add(room.group);
+
+    g.add(group);
 
 }
 
-function Kitchen(scene){
+function Kitchen(g, l){
+
+    var group = new THREE.Group();
 
     var config = new RoomDef();
     config.size.set(17, 40);
@@ -184,11 +194,15 @@ function Kitchen(scene){
     var room = new Room(config);
     room.group.position.set(33, 0, 55);
 
-    scene.add(room.group);
+    group.add(room.group);
+
+    g.add(group);
 
 }
 
-function BathRoom(scene){
+function BathRoom(g, l){
+
+    var group = new THREE.Group();
 
     var config = new RoomDef();
 
@@ -200,7 +214,9 @@ function BathRoom(scene){
     var room = new Room(config);
     room.group.position.set(33.0005, 0, 36);
 
-    scene.add(room.group);
+    group.add(room.group);
+
+    g.add(group);
 
 }
 
