@@ -35,7 +35,7 @@ function SimulationState(){
 
     }
 
-    var house = new House(obj);
+    // var house = new House(obj);
     var world = new World(obj);
 
     var l = new THREE.PointLight(0xffffff, 5);

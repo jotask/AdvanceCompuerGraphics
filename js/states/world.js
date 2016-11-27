@@ -96,7 +96,7 @@ function Terrain(obj){
 
     }
 
-    var texture = assets.textures.grass.val;
+    // var texture = assets.textures.grass.val;
 
     // var material = new THREE.MeshLambertMaterial( { map: texture } );
     var material = new THREE.MeshLambertMaterial( { color: 0x00ff00 } );
