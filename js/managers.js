@@ -122,7 +122,7 @@ function AssetManager(){
     function loadTexture(url) {
         textureLoader.load(folderTextures + url.url, function (text) {
             text.wrapS = text.wrapT = THREE.MirroredRepeatWrapping;
-            // text.repeat.set(url.scale, url.scale);
+            text.repeat.set(url.scale, url.scale);
             url.val = text;
             textureLoaded++;
         });
