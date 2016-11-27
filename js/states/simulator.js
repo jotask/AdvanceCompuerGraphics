@@ -9,7 +9,7 @@ function SimulationState(){
 
     var obj = new Objects(scene);
 
-    var player = new Player();
+    var player = new Player(scene);
 
     if(DEBUG) {
         // Add the axes

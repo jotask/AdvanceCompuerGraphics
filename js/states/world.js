@@ -104,7 +104,7 @@ function Terrain(obj){
 
     var mesh = new THREE.Mesh( geometry, material );
     mesh.receiveShadow = true;
-    mesh.castShadow = true;
+    // mesh.castShadow = true;
 
     obj.meshes.push(mesh);
 

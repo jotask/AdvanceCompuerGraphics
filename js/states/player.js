@@ -1,7 +1,7 @@
 /**
  * Created by Jota on 19/11/2016.
  */
-function Player(camera){
+function Player(scene){
 
     this.camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
     this.camera.position.set(27, 10, 14);
