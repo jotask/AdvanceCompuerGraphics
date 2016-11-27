@@ -3,7 +3,7 @@
  */
 function World(obj){
 
-    new Sun(obj);
+    // new Sun(obj);
 
     new Terrain(obj);
 
@@ -25,12 +25,11 @@ function Sun(obj){
 
     //
 
-    var dirLight = new THREE.DirectionalLight( 0xffffff, 1 );
+    var dirLight = new THREE.DirectionalLight( 0xffffff, 3 );
     dirLight.color.setHSL( 0.1, 1, 0.95 );
     dirLight.position.set( -1, 1.75, 1 );
-    dirLight.position.multiplyScalar( 50 );
+    dirLight.position.multiplyScalar( 100 );
     dirLight.castShadow = true;
-    dirLight.receiveShadow = true;
     dirLight.shadow.mapSize.width = 2048;
     dirLight.shadow.mapSize.height = 2048;
     obj.lights.push( dirLight );
@@ -38,7 +37,7 @@ function Sun(obj){
         obj.lights.push(new THREE.DirectionalLightHelper(dirLight, 10));
     }
 
-    var d = 1000000;
+    var d = 300;
 
     dirLight.shadow.camera.left = -d;
     dirLight.shadow.camera.right = d;
@@ -50,23 +49,23 @@ function Sun(obj){
 
     // SKYDOME
 
-    var vertexShader = document.getElementById( 'vertexShader' ).textContent;
-    var fragmentShader = document.getElementById( 'fragmentShader' ).textContent;
-    var uniforms = {
-        topColor:    { value: new THREE.Color( 0x0077ff ) },
-        bottomColor: { value: new THREE.Color( 0xffffff ) },
-        offset:      { value: 33 },
-        exponent:    { value: 0.6 }
-    };
-    uniforms.topColor.value.copy( hemiLight.color );
-
-    obj.scene.fog.color.copy( uniforms.bottomColor.value );
-
-    var skyGeo = new THREE.SphereGeometry( 4000, 32, 15 );
-    var skyMat = new THREE.ShaderMaterial( { vertexShader: vertexShader, fragmentShader: fragmentShader, uniforms: uniforms, side: THREE.BackSide } );
-
-    var sky = new THREE.Mesh( skyGeo, skyMat );
-    obj.meshes.push( sky );
+    // var vertexShader = document.getElementById( 'vertexShader' ).textContent;
+    // var fragmentShader = document.getElementById( 'fragmentShader' ).textContent;
+    // var uniforms = {
+    //     topColor:    { value: new THREE.Color( 0x0077ff ) },
+    //     bottomColor: { value: new THREE.Color( 0xffffff ) },
+    //     offset:      { value: 33 },
+    //     exponent:    { value: 0.6 }
+    // };
+    // uniforms.topColor.value.copy( hemiLight.color );
+    //
+    // obj.scene.fog.color.copy( uniforms.bottomColor.value );
+    //
+    // var skyGeo = new THREE.SphereGeometry( 4000, 32, 15 );
+    // var skyMat = new THREE.ShaderMaterial( { vertexShader: vertexShader, fragmentShader: fragmentShader, uniforms: uniforms, side: THREE.BackSide } );
+    //
+    // var sky = new THREE.Mesh( skyGeo, skyMat );
+    // obj.meshes.push( sky );
 
 }
 
@@ -99,14 +98,14 @@ function Terrain(obj){
 
     var texture = assets.textures.grass.val;
 
-    var material = new THREE.MeshLambertMaterial( { map: texture} );
+    // var material = new THREE.MeshLambertMaterial( { map: texture } );
+    var material = new THREE.MeshLambertMaterial( { color: 0x00ff00 } );
     // material.color.setHSL( 0.095, 1, 0.75 );
 
     var mesh = new THREE.Mesh( geometry, material );
     mesh.receiveShadow = true;
     mesh.castShadow = true;
 
-    // scene.add( mesh );
     obj.meshes.push(mesh);
 
     var water = new Water();
@@ -176,6 +175,8 @@ function Terrain(obj){
 
         var mesh = new THREE.Mesh( geometry, material );
         mesh.transparent = 0.5;
+
+        mesh.position.setY(7);
 
         return mesh;
 

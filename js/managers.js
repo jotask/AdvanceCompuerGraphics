@@ -21,9 +21,10 @@ function AssetManager(){
     const folderTextures = "assets/textures/";
 
     var manager = new THREE.LoadingManager();
-    // manager.onProgress = function ( item, loaded, total ) {
-    //     console.log( item, loaded, total );
-    // };
+    manager.onProgress = function ( item, loaded, total ) {
+        // console.log( item, loaded, total );
+        console.log("Loading assets...");
+    };
 
     var textureLoader = new THREE.TextureLoader(manager);
     var modelLoader = new THREE.ColladaLoader(manager);
@@ -32,6 +33,11 @@ function AssetManager(){
     var modelsLoaded = 0;
 
     this.textures = {
+        uv: {
+            url: 'uv.jpg',
+            scale: 0.05,
+            val: undefined
+        },
         floor: {
             url: 'carpet.jpg',
             scale: 0.05,
@@ -72,6 +78,7 @@ function AssetManager(){
 
     this.load = function(){
 
+        loadTexture(this.textures.uv);
         loadTexture(this.textures.floor);
         loadTexture(this.textures.wall);
         loadTexture(this.textures.wood);
@@ -115,7 +122,7 @@ function AssetManager(){
     function loadTexture(url) {
         textureLoader.load(folderTextures + url.url, function (text) {
             text.wrapS = text.wrapT = THREE.MirroredRepeatWrapping;
-            text.repeat.set(url.scale, url.scale);
+            // text.repeat.set(url.scale, url.scale);
             url.val = text;
             textureLoaded++;
         });

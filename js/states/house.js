@@ -15,54 +15,10 @@ function House(obj){
 
     new Passage(group, lights);
 
-    new Roof(group, lights);
-
     group.position.set(80,10.5,100);
 
     obj.meshes.push(group);
     obj.lights.push(lights);
-
-}
-
-function Roof(scene){
-
-    // FIXME fix the roof
-
-    this.group = new THREE.Group();
-
-    const length = 105;
-    const height = 50;
-
-    var material = new THREE.MeshLambertMaterial( { map: assets.textures.roof.val, side: THREE.DoubleSide } );
-
-    var geometry = new THREE.PlaneBufferGeometry(length, height);
-
-    var p1 = new THREE.Mesh(geometry, material);
-
-    p1.position.setX(-height / 2.85);
-    p1.receiveShadow = true;
-    p1.castShadow = true;
-
-    var p2 = new THREE.Mesh(geometry, material);
-    p2.position.setX(+(height / 2.85));
-    p2.receiveShadow = true;
-    p2.castShadow = true;
-
-    rotateObject( p1, 0, 90 ,0);
-    rotateObject( p1, 45, 0 ,0);
-
-    rotateObject( p2, 0, 90 ,0);
-    rotateObject( p2, -45, 0 ,0);
-
-    this.group.add(p1);
-    this.group.add(p2);
-
-    this.group.position.set(25, 35, 48);
-
-    this.group.updateMatrix();
-    this.group.updateMatrixWorld();
-
-    scene.add(this.group);
 
 }
 
@@ -409,6 +365,32 @@ function Room(config){
 
     function createMeshFromShape(shape, material){
         var geometry = new THREE.ExtrudeGeometry( shape, cfg.extrudeSettings );
+        geometry.computeBoundingBox();
+
+        var max = geometry.boundingBox.max;
+        var min = geometry.boundingBox.min;
+
+        var offset = new THREE.Vector2(0 - min.x, 0 - min.y);
+        var range = new THREE.Vector2(max.x - min.x, max.y - min.y);
+
+        var faces = geometry.faces;
+
+        geometry.faceVertexUvs[0] = [];
+
+        for (var i = 0; i < faces.length ; i++) {
+
+            var v1 = geometry.vertices[faces[i].a],
+                v2 = geometry.vertices[faces[i].b],
+                v3 = geometry.vertices[faces[i].c];
+
+            geometry.faceVertexUvs[0].push([
+                new THREE.Vector2((v1.x + offset.x)/range.x ,(v1.y + offset.y)/range.y),
+                new THREE.Vector2((v2.x + offset.x)/range.x ,(v2.y + offset.y)/range.y),
+                new THREE.Vector2((v3.x + offset.x)/range.x ,(v3.y + offset.y)/range.y)
+            ]);
+        }
+        geometry.uvsNeedUpdate = true;
+
         var mesh = new THREE.Mesh( geometry, material);
         return mesh;
     }

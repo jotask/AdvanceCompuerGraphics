@@ -4,7 +4,7 @@
 function SimulationState(){
 
     var scene = new THREE.Scene();
-    scene.fog = new THREE.Fog( 0xffffff, 1, 5000 );
+    scene.fog = new THREE.Fog( 0xffffff, 1, 2000 );
     scene.fog.color.setHSL( 0.6, 0, 1 );
 
     var obj = new Objects(scene);
@@ -21,7 +21,7 @@ function SimulationState(){
         scene.add(grid);
     }
 
-    var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    var ambientLight = new THREE.AmbientLight(0xffffff, 0);
     obj.lights.push(ambientLight);
 
     window.addEventListener( 'resize', onWindowResize, false );
