@@ -50,7 +50,6 @@ function LivingRoom(g, l){
     door.position.setX(27.55);
     door.position.setZ(35.5);
     door.position.setY(-0.55);
-
     group.add(door);
 
     var room = new Room(config);
@@ -76,9 +75,13 @@ function Passage(g, l){
     config.offsetX = 3;
 
     var room = new Room(config);
-    room.group.position.set(20, 0, 35);
-
     group.add(room.group);
+
+    var door = assets.models.door.val.clone();
+    door.position.set(7.5,-0.55,61.5);
+    group.add(door);
+
+    group.position.set(20, 0, 35);
 
     g.add(group);
 
@@ -101,9 +104,14 @@ function BedRoomOne(g, l){
     config.WALLS.FRONT.w = [0];
 
     var room = new Room(config);
-    room.group.position.set(0, 0, 35.5);
-
     group.add(room.group);
+
+    var door = assets.models.door_frame.val.clone();
+    door.rotation.z = Math.PI / 2;
+    door.position.set(20.5,-0.55,8.5);
+    group.add(door);
+
+    group.position.set(0, 0, 35.5);
 
     g.add(group);
 
@@ -126,9 +134,14 @@ function BedRoomTwo(g, l){
     config.WALLS.RIGHT.w = [0];
 
     var room = new Room(config);
-    room.group.position.set(0.0005, 0, 65);
-
     group.add(room.group);
+
+    var door = assets.models.door_frame.val.clone();
+    door.rotation.z = Math.PI / 2;
+    door.position.set(20.5,-0.55,8.5);
+    group.add(door);
+
+    group.position.set(0.0005, 0, 65);
 
     g.add(group);
 
@@ -150,9 +163,14 @@ function Kitchen(g, l){
     config.WALLS.RIGHT.w = [0];
 
     var room = new Room(config);
-    room.group.position.set(33, 0, 55);
-
     group.add(room.group);
+
+    var door = assets.models.door_frame.val.clone();
+    door.rotation.z = Math.PI / 2;
+    door.position.set(0.5,-0.55,12.5);
+    group.add(door);
+
+    group.position.set(33, 0, 55);
 
     g.add(group);
 
@@ -176,9 +194,14 @@ function BathRoom(g, l){
     config.WALLS.BACK.w = [0];
 
     var room = new Room(config);
-    room.group.position.set(33.0005, 0, 36);
-
     group.add(room.group);
+
+    var door = assets.models.door_frame.val.clone();
+    door.rotation.z = Math.PI / 2;
+    door.position.set(0.5,-0.55,8.5);
+    group.add(door);
+
+    group.position.set(33.0005, 0, 36);
 
     g.add(group);
 
