@@ -46,7 +46,7 @@ function LivingRoom(g, l){
     config.WALLS.BACK.TYPE = config.WALLTYPE.WINDOW;
     config.WALLS.BACK.w = [2];
 
-    var door = assets.models.door.val;
+    var door = assets.models.door_frame.val;
     door.position.setX(27.55);
     door.position.setZ(35.5);
     door.position.setY(-0.55);
@@ -95,6 +95,11 @@ function BedRoomOne(g, l){
     config.WALLS.BACK.TYPE = config.WALLTYPE.DOOR;
     config.offsetX = 17;
 
+    config.windows.push(new config.Window(5, 5, 9, 15));
+
+    config.WALLS.FRONT.TYPE = config.WALLTYPE.WINDOW;
+    config.WALLS.FRONT.w = [0];
+
     var room = new Room(config);
     room.group.position.set(0, 0, 35.5);
 
@@ -115,6 +120,11 @@ function BedRoomTwo(g, l){
     config.WALLS.BACK.TYPE = config.WALLTYPE.DOOR;
     config.offsetX = 17;
 
+    config.windows.push(new config.Window(5, 5, 10, 15));
+
+    config.WALLS.RIGHT.TYPE = config.WALLTYPE.WINDOW;
+    config.WALLS.RIGHT.w = [0];
+
     var room = new Room(config);
     room.group.position.set(0.0005, 0, 65);
 
@@ -133,6 +143,11 @@ function Kitchen(g, l){
 
     config.WALLS.FRONT.TYPE = config.WALLTYPE.DOOR;
     config.offsetX = 23;
+
+    config.windows.push(new config.Window(5, 5, 10, 15));
+
+    config.WALLS.RIGHT.TYPE = config.WALLTYPE.WINDOW;
+    config.WALLS.RIGHT.w = [0];
 
     var room = new Room(config);
     room.group.position.set(33, 0, 55);
@@ -153,6 +168,12 @@ function BathRoom(g, l){
 
     config.WALLS.FRONT.TYPE = config.WALLTYPE.DOOR;
     config.offsetX = 7;
+
+
+    config.windows.push(new config.Window(3, 15, 15, 5));
+
+    config.WALLS.BACK.TYPE = config.WALLTYPE.WINDOW;
+    config.WALLS.BACK.w = [0];
 
     var room = new Room(config);
     room.group.position.set(33.0005, 0, 36);
@@ -220,7 +241,7 @@ function Room(config){
     var celling = createWall(cfg.size.x + cfg.wallDepth - 0.1, cfg.size.y + cfg.wallDepth - 0.1, cfg.materials.CELLING);
     celling.rotation.x = Math.PI/2;
     celling.position.setY(cfg.cellingSize + 1);
-    // this.group.add(celling);
+    this.group.add(celling);
 
     if(cfg.WALLS.LEFT.TYPE !== cfg.WALLTYPE.EMPTY) {
         var leftWall = create(cfg.WALLS.LEFT);
@@ -341,12 +362,26 @@ function Room(config){
             console.error("Any window has been set for the configuration.");
         }
 
+        var g = new THREE.Group();
+
         var material = new THREE.MeshLambertMaterial( { map: assets.textures.wall.val } );
         var mesh = createMeshFromShape(shape, material);
         mesh.castShadow = true;
         mesh.receiveShadow = true;
+        g.add(mesh);
 
-        return mesh;
+        // Create glass
+        var glassMaterial = new THREE.MeshPhongMaterial( {color: 0x0000ff, side: THREE.DoubleSide, transparent: true, opacity: 0.25} );
+
+        var geo = new THREE.PlaneGeometry(width, height);
+
+        var m = new THREE.Mesh(geo, glassMaterial);
+        m.translateZ(0.5);
+        m.translateX(width / 2);
+        m.translateY(height / 2);
+        g.add(m);
+
+        return g;
 
     }
 

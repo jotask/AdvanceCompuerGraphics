@@ -58,6 +58,11 @@ function AssetManager(){
             scale: 100,
             val: undefined
         },
+        grassNormal: {
+            url: 'grassNormal.jpg',
+            scale: 100,
+            val: undefined
+        },
         roof: {
             url: 'roof.jpg',
             scale: 3,
@@ -68,6 +73,11 @@ function AssetManager(){
     this.models = {
         door: {
             url : 'door/Door.dae',
+            scale2:{ x: 1.15, y: 1.65, z: 1.5},
+            val: undefined
+        },
+        door_frame: {
+            url : 'door/Frame.dae',
             scale2:{ x: 1.15, y: 1.65, z: 1.5},
             val: undefined
         }
@@ -83,9 +93,11 @@ function AssetManager(){
         loadTexture(this.textures.wall);
         loadTexture(this.textures.wood);
         loadTexture(this.textures.grass);
+        loadTexture(this.textures.grassNormal);
         loadTexture(this.textures.roof);
 
         loadModel(this.models.door);
+        loadModel(this.models.door_frame);
 
     };
 
