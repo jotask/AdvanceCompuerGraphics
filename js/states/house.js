@@ -7,13 +7,13 @@ function House(obj){
     var group = new THREE.Group();
     var lights = new THREE.Group();
 
-    // new LivingRoom(group, lights);
-    // new BedRoomOne(group, lights);
-    // new BedRoomTwo(group, lights);
-    // new BathRoom(group, lights);
-    // new Kitchen(group, lights);
-    //
-    // new Passage(group, lights);
+    new LivingRoom(group, lights);
+    new BedRoomOne(group, lights);
+    new BedRoomTwo(group, lights);
+    new BathRoom(group, lights);
+    new Kitchen(group, lights);
+
+    new Passage(group, lights);
 
     new Roof(group, lights);
 
@@ -489,7 +489,17 @@ function Room(config){
         g.add(mesh);
 
         // Create glass
-        var glassMaterial = new THREE.MeshPhongMaterial( {color: 0x0000ff, side: THREE.DoubleSide, transparent: true, opacity: 0.25} );
+
+        var glassMaterial = new THREE.MeshPhongMaterial(
+            {
+                color: 0x0000ff,
+                side: THREE.DoubleSide,
+                transparent: true,
+                opacity: 0.25,
+                specular: 0x050505,
+                shininess: 100
+            }
+            );
 
         var geo = new THREE.PlaneGeometry(width, height);
 
