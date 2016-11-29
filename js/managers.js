@@ -63,6 +63,16 @@ function AssetManager(){
             scale: 100,
             val: undefined
         },
+        grassN: {
+            url: 'grassN.bmp',
+            scale: 100,
+            val: undefined
+        },
+        grassHM: {
+            url: 'grassHM.png',
+            scale: 100,
+            val: undefined
+        },
         roof: {
             url: 'roof.jpg',
             scale: 1,
@@ -93,17 +103,13 @@ function AssetManager(){
 
     this.load = function(){
 
-        loadTexture(this.textures.uv);
-        loadTexture(this.textures.floor);
-        loadTexture(this.textures.wall);
-        loadTexture(this.textures.wood);
-        loadTexture(this.textures.grass);
-        loadTexture(this.textures.grassNormal);
-        loadTexture(this.textures.roof);
-        loadTexture(this.textures.oldWood);
+        for(var key in this.textures) {
+            loadTexture(this.textures[key]);
+        }
 
-        loadModel(this.models.door);
-        loadModel(this.models.door_frame);
+        for(var key in this.models){
+            loadModel(this.models[key]);
+        }
 
     };
 
