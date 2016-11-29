@@ -4,7 +4,8 @@
 function Player(scene){
 
     this.camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
-    this.camera.position.set(27, 10, 14);
+    // this.camera.position.set(27, 10, 14);
+    this.camera.position.set(163, 100, -100);
     this.camera.lookAt(new THREE.Vector3(27, 10, 80));
 
     var camControls = new THREE.FirstPersonControls(this.camera);

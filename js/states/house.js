@@ -7,18 +7,113 @@ function House(obj){
     var group = new THREE.Group();
     var lights = new THREE.Group();
 
-    new LivingRoom(group, lights);
-    new BedRoomOne(group, lights);
-    new BedRoomTwo(group, lights);
-    new BathRoom(group, lights);
-    new Kitchen(group, lights);
+    // new LivingRoom(group, lights);
+    // new BedRoomOne(group, lights);
+    // new BedRoomTwo(group, lights);
+    // new BathRoom(group, lights);
+    // new Kitchen(group, lights);
+    //
+    // new Passage(group, lights);
 
-    new Passage(group, lights);
+    new Roof(group, lights);
 
     group.translateY(10.5);
 
     obj.meshes.push(group);
     obj.lights.push(lights);
+
+}
+
+function Roof(g, l){
+
+    const offset = 10;
+
+    const w = 50 + (offset);
+    const h = 20;
+    const d = 97 + (offset);
+
+    var materials = [];
+
+    var tiles = new THREE.MeshLambertMaterial({
+        map: assets.textures.roof.val,
+        side: THREE.DoubleSide
+    });
+
+    var sides = new THREE.MeshLambertMaterial({
+        map: assets.textures.oldWood.val,
+        side: THREE.DoubleSide
+    });
+
+
+    materials.push(tiles);
+    materials.push(sides);
+
+    var geometry = new THREE.Geometry();
+
+    geometry.vertices.push(
+        new THREE.Vector3(0, 0, 0),
+        new THREE.Vector3(0, 0, d),
+        new THREE.Vector3(w, 0, d),
+        new THREE.Vector3(w, 0, 0),
+        new THREE.Vector3(w / 2, h, 0),
+        new THREE.Vector3(w / 2, h, d)
+    );
+
+    geometry.faces.push(new THREE.Face3(0, 1, 2));
+    geometry.faces.push(new THREE.Face3(2, 3, 0));
+
+    geometry.faces.push(new THREE.Face3(0, 1, 5));
+    geometry.faces.push(new THREE.Face3(0, 5, 4));
+
+    geometry.faces.push(new THREE.Face3(2, 3, 5));
+    geometry.faces.push(new THREE.Face3(3, 4, 5));
+
+    geometry.faces.push(new THREE.Face3(0, 3, 4));
+    geometry.faces.push(new THREE.Face3(1, 2, 5));
+
+    var uvs = [
+        new THREE.Vector2(0, 0),
+        new THREE.Vector2(1, 0),
+        new THREE.Vector2(1, 1),
+        new THREE.Vector2(0, 1)
+
+    ];
+
+
+    geometry.faceVertexUvs[0][0] = [ uvs[0], uvs[1], uvs[2] ];
+    geometry.faceVertexUvs[0][1] = [ uvs[0], uvs[1], uvs[2] ];
+
+    geometry.faceVertexUvs[0][2] = [ uvs[0], uvs[1], uvs[2] ];
+    geometry.faceVertexUvs[0][3] = [ uvs[0], uvs[2], uvs[3] ];
+
+    geometry.faceVertexUvs[0][4] = [ uvs[1], uvs[0], uvs[2] ];
+    geometry.faceVertexUvs[0][5] = [ uvs[0], uvs[3], uvs[2] ];
+
+    geometry.faceVertexUvs[0][6] = [ uvs[0], uvs[1], uvs[2] ];
+    geometry.faceVertexUvs[0][7] = [ uvs[0], uvs[1], uvs[2] ];
+
+    geometry.faces[0].materialIndex = 1;
+    geometry.faces[1].materialIndex = 1;
+
+    geometry.faces[6].materialIndex = 1;
+    geometry.faces[7].materialIndex = 1;
+
+    geometry.sortFacesByMaterialIndex();
+
+    geometry.computeFaceNormals();
+    geometry.computeVertexNormals();
+
+    var mat = new THREE.MultiMaterial(materials);
+    var mesh = new THREE.Mesh(geometry, mat);
+
+    mesh.position.setX(-offset / 2);
+    mesh.position.setZ(-offset / 2);
+    mesh.position.setY(24);
+
+    mesh.castShadow = true;
+    mesh.receiveShadow = true;
+
+    g.add(mesh);
 
 }
 

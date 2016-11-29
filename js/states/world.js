@@ -129,9 +129,9 @@ function Terrain(obj){
         map: texture,
         normalMap: normal,
         specular: 0x222222,
-        shininess: 35,
-        normalScale: new THREE.Vector2( 100, 100 ) } );
-    // material.color.setHSL( 0.095, 1, 0.75 );
+        shininess: 23,
+        shading: THREE.FlatShading,
+        normalScale: new THREE.Vector2( 200, 200 ) } );
 
     var mesh = new THREE.Mesh( geometry, material );
     mesh.receiveShadow = true;

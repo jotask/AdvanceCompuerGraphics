@@ -59,13 +59,18 @@ function AssetManager(){
             val: undefined
         },
         grassNormal: {
-            url: 'grassNormal.jpg',
+            url: 'grassNormal.png',
             scale: 100,
             val: undefined
         },
         roof: {
             url: 'roof.jpg',
-            scale: 3,
+            scale: 1,
+            val: undefined
+        },
+        oldWood: {
+            url: 'old_wood.jpg',
+            scale: 1,
             val: undefined
         }
     };
@@ -95,6 +100,7 @@ function AssetManager(){
         loadTexture(this.textures.grass);
         loadTexture(this.textures.grassNormal);
         loadTexture(this.textures.roof);
+        loadTexture(this.textures.oldWood);
 
         loadModel(this.models.door);
         loadModel(this.models.door_frame);
