@@ -150,6 +150,23 @@ function LivingRoom(g, l){
     var room = new Room(config);
     group.add(room.group);
 
+    var t = new Table().obj;
+    t.position.set(25, 0, 15);
+    group.add(t);
+
+    var c = new Chair().obj;
+    c.position.set(25 + 7, 0, 15);
+    group.add(c);
+
+    var c1 = new Chair().obj;
+    c1.position.set(25 - 7, 0, 15);
+    c1.rotation.y = Math.PI;
+    group.add(c1);
+
+    var carp = new Carpet().obj;
+    carp.position.set(25, -0.45, 17);
+    group.add(carp);
+
     g.add(group);
 
 }
@@ -489,17 +506,14 @@ function Room(config){
         g.add(mesh);
 
         // Create glass
-
-        var glassMaterial = new THREE.MeshPhongMaterial(
-            {
-                color: 0x0000ff,
-                side: THREE.DoubleSide,
-                transparent: true,
-                opacity: 0.25,
-                specular: 0x050505,
-                shininess: 100
-            }
-            );
+        var glassMaterial = new THREE.MeshPhongMaterial({
+            side: THREE.DoubleSide,
+            color: 0x91FFD7,
+            transparent: true,
+            opacity: 0.5,
+            shininess: 200,
+            specular: 0xFAFAC8
+        });
 
         var geo = new THREE.PlaneGeometry(width, height);
 

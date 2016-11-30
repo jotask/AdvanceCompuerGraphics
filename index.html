@@ -11,7 +11,7 @@
     <script src="js/libs/ColladaLoader2.js"></script>
     <script src="js/libs/Perlin.js"></script>
     <script src="js/libs/OBJLoader.js"></script>
-    <script src="js/libs/PointerLockControls.js"></script>
+    <script src="js/libs/OrbitControls.js"></script>
     <!-- Shaders -->
     <script src="js/libs/shader/SkyShader.js"></script>
     <script src="js/libs/shader/BleachBypassShader.js"></script>
@@ -24,12 +24,15 @@
     <script src="js/libs/shader/ShaderPass.js"></script>
 </head>
 <body>
+    <script src="js/states/models.js"></script>
     <script src="js/states/world.js"></script>
     <script src="js/states/house.js"></script>
     <script src="js/states/player.js"></script>
     <script src="js/states/simulator.js"></script>
     <script src="js/managers.js"></script>
     <script src="js/engine.js"></script>
+
+    <script src='js/threex/threex.grass.js'></script>
     <script>
         window.onload = function(){
             load();

@@ -52,14 +52,14 @@ function load(){
 function init(){
 
     webGLRenderer = new THREE.WebGLRenderer();
-    //webGLRenderer.setClearColor(new THREE.Color(0x000, 1.0));
+    webGLRenderer.setClearColor(new THREE.Color(0x000, 1.0));
     webGLRenderer.setSize( window.innerWidth, window.innerHeight );
     webGLRenderer.shadowMap.enabled = true;
     webGLRenderer.shadowMap.Type = THREE.PCFSoftShadowMap;
     webGLRenderer.gammaInput = true;
     webGLRenderer.gammaOutput = true;
     webGLRenderer.setPixelRatio(window.devicePixelRatio);
-    // webGLRenderer.shadowMap.renderReverseSided = false;
+    webGLRenderer.shadowMap.renderReverseSided = false;
     document.body.appendChild(webGLRenderer.domElement);
 
     clock = new THREE.Clock();

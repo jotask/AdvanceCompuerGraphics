@@ -29,6 +29,7 @@ function AssetManager(){
     var textureLoader = new THREE.TextureLoader(manager);
     var modelLoader = new THREE.ColladaLoader(manager);
 
+    var xLoaded = 0;
     var textureLoaded = 0;
     var modelsLoaded = 0;
 
@@ -38,9 +39,9 @@ function AssetManager(){
             scale: 0.05,
             val: undefined
         },
-        floor: {
+        carpet: {
             url: 'carpet.jpg',
-            scale: 0.05,
+            scale: 1,
             val: undefined
         },
         wall: {
@@ -85,6 +86,25 @@ function AssetManager(){
         }
     };
 
+    this.x = {
+        grass01: {
+            url: 'grass01.png',
+            val: undefined
+        },
+        grass02: {
+            url: 'grass02.png',
+            val: undefined
+        },
+        flowers01: {
+            url: 'flowers01.png',
+            val: undefined
+        },
+        flowers02: {
+            url: 'flowers02.png',
+            val: undefined
+        }
+    };
+
     this.models = {
         door: {
             url : 'door/Door.dae',
@@ -98,10 +118,35 @@ function AssetManager(){
         }
     };
 
+    const xToLoad = Object.keys(this.x).length;
     const texturesToLoad = Object.keys(this.textures).length;
     const modelsToLoad = Object.keys(this.models).length;
 
+    // this.load = function(){
+    //
+    //     loadX(this.x.g);
+    //
+    //     loadTexture(this.textures.uv);
+    //     loadTexture(this.textures.floor);
+    //     loadTexture(this.textures.wall);
+    //     loadTexture(this.textures.wood);
+    //     loadTexture(this.textures.grass);
+    //     loadTexture(this.textures.grassNormal);
+    //     loadTexture(this.textures.grassN);
+    //     loadTexture(this.textures.grassHM);
+    //     loadTexture(this.textures.roof);
+    //     loadTexture(this.textures.oldWood);
+    //
+    //     loadModel(this.models.door);
+    //     loadModel(this.models.door_frame);
+    //
+    // };
+
     this.load = function(){
+
+        for(var key in this.x) {
+            loadX(this.x[key]);
+        }
 
         for(var key in this.textures) {
             loadTexture(this.textures[key]);
@@ -115,7 +160,7 @@ function AssetManager(){
 
     this.isFinished = function(){
 
-        if(textureLoaded === texturesToLoad && modelsLoaded === modelsToLoad) return true;
+        if(textureLoaded === texturesToLoad && modelsLoaded === modelsToLoad && xLoaded === xToLoad) return true;
 
         return false;
 
@@ -149,6 +194,13 @@ function AssetManager(){
             text.repeat.set(url.scale, url.scale);
             url.val = text;
             textureLoaded++;
+        });
+    }
+
+    function loadX(url) {
+        textureLoader.load('assets/x/' + url.url, function (text) {
+            url.val = text;
+            xLoaded++;
         });
     }
 
