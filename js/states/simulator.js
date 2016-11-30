@@ -39,9 +39,6 @@ function SimulationState() {
     new House(obj);
     new World(obj);
 
-    // var b = new Bottle();
-    // obj.meshes.push(b.obj);
-
     // var l = new THREE.SpotLight(0xff0000, 1);
     // l.position.set(20, 20, 20);
     // l.castShadow = true;

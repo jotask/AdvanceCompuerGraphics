@@ -20,14 +20,14 @@ function Objects(sce){
 
     this.addToScene = function(){
 
-        for(var i = 0; i < this.lights.length; i++){
-            var l = this.lights[i];
-            this.scene.add(l);
-        }
-
         for(var i = 0; i < this.meshes.length; i++){
             var mesh = this.meshes[i];
             this.scene.add(mesh);
+        }
+
+        for(var i = 0; i < this.lights.length; i++){
+            var l = this.lights[i];
+            this.scene.add(l);
         }
 
     };

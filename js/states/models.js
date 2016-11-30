@@ -5,10 +5,10 @@ function Table(){
 
     const legS = 1;
 
-    const width = 10;
-    const height = 5;
+    const width = 20;
+    const height = 7;
     const depth = 1;
-    const length = 7;
+    const length = 10;
 
     this.obj = new THREE.Object3D();
 
@@ -69,10 +69,10 @@ function Chair(){
 
     const legS = 0.5;
 
-    const width = 3;
-    const height = 5 / 1.5;
+    const width = 5;
+    const height = 7 / 1.5;
     const depth = 0.5;
-    const length = 3;
+    const length = 5;
 
     this.obj = new THREE.Object3D();
 

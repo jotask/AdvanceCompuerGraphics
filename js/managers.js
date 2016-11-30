@@ -26,6 +26,14 @@ function AssetManager(){
         console.log("Loading assets...");
     };
 
+    manager.onLoad = function () {
+        console.log('all items loaded');
+    };
+
+    manager.onError = function () {
+        console.error('there has been an error loading assets');
+    };
+
     var textureLoader = new THREE.TextureLoader(manager);
     var modelLoader = new THREE.ColladaLoader(manager);
 
@@ -115,32 +123,62 @@ function AssetManager(){
             url : 'door/Frame.dae',
             scale2:{ x: 1.15, y: 1.65, z: 1.5},
             val: undefined
+        },
+        toilet: {
+            url : 'toilet/toilet.dae',
+            scale2:{ x: 0.1, y: 0.1, z: 0.1},
+            val: undefined
+        },
+        bed: {
+            url : 'bed/bed.dae',
+            scale2:{ x: 0.05, y: 0.05, z: 0.05},
+            val: undefined
+        },
+        drawer: {
+            url : 'drawer/drawer.dae',
+            scale2:{ x: 25, y: 25, z: 25},
+            val: undefined
+        },
+        smallTable: {
+            url : 'stable/smalltable.dae',
+            scale2:{ x: 0.15, y: 0.15, z: 0.15},
+            val: undefined
+        },
+        lavalamp: {
+            url : 'lavalamp/lavalamp.dae',
+            scale2:{ x: 0.5, y: 0.5, z: 0.5},
+            val: undefined
+        },
+        lamptop: {
+            url : 'lamptop/lamptop.dae',
+            scale2:{ x: 3, y: 0.25, z: 3},
+            val: undefined
+        },
+        desk: {
+            url : 'desk/desk.dae',
+            scale2:{ x: 0.04, y: 0.04, z: 0.04},
+            val: undefined
+        },
+        chair: {
+            url : 'chair/chair.dae',
+            scale2:{ x: 0.06, y: 0.06, z: 0.06},
+            val: undefined
+        },
+        kitchen: {
+            url : 'kit/kit.dae',
+            scale2:{ x: 7, y: 7, z: 7},
+            val: undefined
+        },
+        tableK: {
+            url : 'kit/table.dae',
+            scale2:{ x: 3, y: 5, z: 3},
+            val: undefined
         }
     };
 
     const xToLoad = Object.keys(this.x).length;
     const texturesToLoad = Object.keys(this.textures).length;
     const modelsToLoad = Object.keys(this.models).length;
-
-    // this.load = function(){
-    //
-    //     loadX(this.x.g);
-    //
-    //     loadTexture(this.textures.uv);
-    //     loadTexture(this.textures.floor);
-    //     loadTexture(this.textures.wall);
-    //     loadTexture(this.textures.wood);
-    //     loadTexture(this.textures.grass);
-    //     loadTexture(this.textures.grassNormal);
-    //     loadTexture(this.textures.grassN);
-    //     loadTexture(this.textures.grassHM);
-    //     loadTexture(this.textures.roof);
-    //     loadTexture(this.textures.oldWood);
-    //
-    //     loadModel(this.models.door);
-    //     loadModel(this.models.door_frame);
-    //
-    // };
 
     this.load = function(){
 

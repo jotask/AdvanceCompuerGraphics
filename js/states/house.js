@@ -5,26 +5,24 @@
 function House(obj){
 
     var group = new THREE.Group();
-    var lights = new THREE.Group();
 
-    new LivingRoom(group, lights);
-    new BedRoomOne(group, lights);
-    new BedRoomTwo(group, lights);
-    new BathRoom(group, lights);
-    new Kitchen(group, lights);
+    new LivingRoom(group);
+    new BedRoomOne(group);
+    new BedRoomTwo(group);
+    new BathRoom(group);
+    new Kitchen(group);
 
-    new Passage(group, lights);
+    new Passage(group);
 
-    new Roof(group, lights);
+    // new Roof(group);
 
     group.translateY(10.5);
 
     obj.meshes.push(group);
-    obj.lights.push(lights);
 
 }
 
-function Roof(g, l){
+function Roof(g){
 
     const offset = 10;
 
@@ -117,7 +115,7 @@ function Roof(g, l){
 
 }
 
-function LivingRoom(g, l){
+function LivingRoom(g){
 
     var group = new THREE.Group();
 
@@ -155,11 +153,11 @@ function LivingRoom(g, l){
     group.add(t);
 
     var c = new Chair().obj;
-    c.position.set(25 + 7, 0, 15);
+    c.position.set(25 + 10, 0, 15);
     group.add(c);
 
     var c1 = new Chair().obj;
-    c1.position.set(25 - 7, 0, 15);
+    c1.position.set(25 - 10, 0, 15);
     c1.rotation.y = Math.PI;
     group.add(c1);
 
@@ -167,11 +165,27 @@ function LivingRoom(g, l){
     carp.position.set(25, -0.45, 17);
     group.add(carp);
 
+    var lamp = assets.models.lamptop.val.clone();
+    lamp.rotation.y = Math.PI;
+    lamp.position.setY(24);
+    lamp.position.setX(19);
+    lamp.position.setZ(15);
+    group.add(lamp);
+
+    var light = new THREE.SpotLight(0xffffff, 0.25);
+    light.target.position.set(25, 0, 15);
+    light.target.updateMatrixWorld();
+    light.position.setY(21);
+    light.position.setX(25);
+    light.position.setZ(15);
+    light.angle = Math.PI / 2.25;
+    group.add(light);
+
     g.add(group);
 
 }
 
-function Passage(g, l){
+function Passage(g){
 
     var group = new THREE.Group();
 
@@ -199,7 +213,7 @@ function Passage(g, l){
 
 }
 
-function BedRoomOne(g, l){
+function BedRoomOne(g){
 
     var group = new THREE.Group();
 
@@ -223,13 +237,44 @@ function BedRoomOne(g, l){
     door.position.set(20.5,-0.55,8.5);
     group.add(door);
 
+    var bed = assets.models.bed.val;
+    bed.position.setY(5);
+    bed.position.setX(6.6);
+    bed.position.setZ(19);
+    bed.rotation.z = Math.PI;
+    group.add(bed);
+
+    var drawer = assets.models.drawer.val;
+    drawer.position.setY(10);
+    drawer.position.setX(2);
+    drawer.position.setZ(4.7);
+    drawer.rotation.z = Math.PI / 2;
+    group.add(drawer);
+
+    var st = assets.models.smallTable.val;
+    st.position.setX(19);
+    st.position.setZ(29.75);
+    st.position.setY(0);
+    st.rotation.z = Math.PI;
+    group.add(st);
+
+    var lavalamp = assets.models.lavalamp.val;
+    lavalamp.position.setY(8);
+    lavalamp.position.setX(13);
+    lavalamp.position.setZ(27);
+    group.add(lavalamp);
+
+    var light = new THREE.PointLight(0xffffff, 0.25);
+    light.position.set(15, 10, 25);
+    group.add(light);
+
     group.position.set(0, 0, 35.5);
 
     g.add(group);
 
 }
 
-function BedRoomTwo(g, l){
+function BedRoomTwo(g){
 
     var group = new THREE.Group();
 
@@ -253,13 +298,25 @@ function BedRoomTwo(g, l){
     door.position.set(20.5,-0.55,8.5);
     group.add(door);
 
+    var desk = assets.models.desk.val;
+    desk.rotation.z = Math.PI / 2;
+    desk.position.setX(5);
+    desk.position.setZ(26);
+    group.add(desk);
+
+    var chair = assets.models.chair.val;
+    chair.rotation.z = Math.PI;
+    chair.position.setZ(20);
+    chair.position.setX(15);
+    group.add(chair);
+
     group.position.set(0.0005, 0, 65);
 
     g.add(group);
 
 }
 
-function Kitchen(g, l){
+function Kitchen(g){
 
     var group = new THREE.Group();
 
@@ -282,13 +339,25 @@ function Kitchen(g, l){
     door.position.set(0.5,-0.55,12.5);
     group.add(door);
 
+    var kit = assets.models.kitchen.val;
+    kit.rotation.z = -Math.PI / 2;
+    kit.position.setX(16.75);
+    kit.position.setZ(1.75);
+    group.add(kit);
+
+    var table = assets.models.tableK.val;
+    table.rotation.z = Math.PI / 2;
+    table.position.setX(14);
+    table.position.setZ(30);
+    group.add(table);
+
     group.position.set(33, 0, 55);
 
     g.add(group);
 
 }
 
-function BathRoom(g, l){
+function BathRoom(g){
 
     var group = new THREE.Group();
 
@@ -298,7 +367,6 @@ function BathRoom(g, l){
 
     config.WALLS.FRONT.TYPE = config.WALLTYPE.DOOR;
     config.offsetX = 7;
-
 
     config.windows.push(new config.Window(3, 15, 15, 5));
 
@@ -312,6 +380,31 @@ function BathRoom(g, l){
     door.rotation.z = Math.PI / 2;
     door.position.set(0.5,-0.55,8.5);
     group.add(door);
+
+    var toilet = assets.models.toilet.val;
+    toilet.position.setY(5.75);
+    toilet.position.setX(12.4);
+    toilet.position.setZ(16);
+    toilet.rotation.z = -Math.PI / 2;
+    group.add(toilet);
+
+
+    var lamp = assets.models.lamptop.val.clone();
+    lamp.rotation.y = Math.PI;
+    lamp.position.setY(24);
+    lamp.position.setX(5);
+    lamp.position.setZ(10);
+    group.add(lamp);
+
+    var light = new THREE.SpotLight(0xffffff, 0.25);
+    light.target.position.set(11, 0, 11);
+    light.target.updateMatrixWorld();
+    light.distance = 100;
+    light.position.setY(21);
+    light.position.setX(10);
+    light.position.setZ(11);
+    light.angle = Math.PI / 2.25;
+    group.add(light);
 
     group.position.set(33.0005, 0, 36);
 
@@ -376,7 +469,7 @@ function Room(config){
     var celling = createWall(cfg.size.x + cfg.wallDepth - 0.1, cfg.size.y + cfg.wallDepth - 0.1, cfg.materials.CELLING);
     celling.rotation.x = Math.PI/2;
     celling.position.setY(cfg.cellingSize + 1);
-    this.group.add(celling);
+    // this.group.add(celling);
 
     if(cfg.WALLS.LEFT.TYPE !== cfg.WALLTYPE.EMPTY) {
         var leftWall = create(cfg.WALLS.LEFT);

@@ -1527,8 +1527,8 @@ THREE.ColladaLoader.prototype = {
 		// metadata
 
 		var version = collada.getAttribute( 'version' );
-		console.log( 'ColladaLoader: File version', version );
-
+		// console.log( 'ColladaLoader: File version', version );
+        //
 		var asset = parseAsset( getElementsByTagName( collada, 'asset' )[ 0 ] );
 
 		//
