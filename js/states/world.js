@@ -6,8 +6,13 @@ function World(obj){
     new Sun(obj);
     new Sky(obj);
     new Terrain(obj);
+    var water = new Water2(obj);
     // new Grass(obj);
-    // new TerrainGrass(obj)
+
+    this.render = function(){
+        water.ms_Water.material.uniforms.time.value += 1.0 / 60.0;
+        water.ms_Water.render();
+    }
 
 }
 
@@ -161,85 +166,6 @@ function Sun(obj){
 
 }
 
-function TerrainGrass(obj){
-
-    var group = new THREE.Group();
-
-    noise.seed(23);
-    var worldWidth = 256, worldDepth = 256;
-    var data = generateNoise( worldWidth, worldDepth );
-    var geometry = new THREE.PlaneBufferGeometry( 7500, 7500, worldWidth - 1, worldDepth - 1 );
-    geometry.rotateX( - Math.PI / 2 );
-    geometry.computeBoundingBox();
-
-    var vertices = geometry.attributes.position.array;
-
-    var positions	= []
-
-    for ( var i = 0, j = 0, l = vertices.length; i < l; i ++, j += 3 ) {
-        vertices [ j + 1 ] =  data[ i ] * 10;
-
-        //check if this coordinate is inside the radius we want to know if can spawn a grass
-        // if is inside spawn a plant knowin the height of this position
-
-    }
-
-    var grass = new THREEx.createGrassTufts(positions)
-    grass.scale.set(50, 50, 50)
-    group.add(grass);
-
-    var texture = assets.textures.grass.val;
-
-    var material = new THREE.MeshPhongMaterial( { map: texture, shading: THREE.SmoothShading } );
-
-    var ground = new THREE.Mesh( geometry, material );
-    ground.receiveShadow = true;
-    ground.castShadow = true;
-
-    // ground.translateX(-80);
-    // ground.translateZ(-100);
-
-    group.add(ground);
-
-    // var water = new Water();
-    // group.add(water);
-
-    obj.meshes.push(group)
-
-    function generateNoise( width, height ){
-        var size = width * height;
-        var data = new Uint8Array( size );
-        var quality = 1;
-        const idk = 0.2;
-        for ( var j = 0; j < 4; j ++ ) {
-            for ( var i = 0; i < size; i ++ ) {
-                var x = i % width, y = ~~ ( i / width );
-                data[ i ] = Math.abs(noise.perlin2(x / quality, y / quality) * quality * idk);
-            }
-            quality *= 5;
-        }
-        return data;
-    }
-
-    function Water(){
-
-        var geometry = new THREE.PlaneBufferGeometry( 7500, 7500, worldWidth - 1, worldDepth - 1 );
-        geometry.rotateX( - Math.PI / 2 );
-
-        var material = new THREE.MeshLambertMaterial( {color: 0x0000ff, transparent: true, opacity: 0.5} );
-        // material.color.setHSL( 0.095, 1, 0.75 );
-
-        var mesh = new THREE.Mesh( geometry, material );
-        mesh.transparent = 0.5;
-
-        mesh.position.setY(7);
-
-        return mesh;
-
-    }
-
-}
-
 function Terrain(obj){
 
     // https://threejs.org/examples/webgl_geometry_terrain.html
@@ -268,7 +194,6 @@ function Terrain(obj){
     var texture = assets.textures.grass.val;
     var normal  = assets.textures.grassNormal.val;
 
-    // FIXME
     var material = new THREE.MeshPhongMaterial( {
         map: texture,
         normalMap: normal,
@@ -278,17 +203,6 @@ function Terrain(obj){
         normalScale: new THREE.Vector2( 1, 1 )
     } );
 
-    // create a wood material
-    // var woodColor = assets.textures.grass.val;
-    // woodColor.min_filter = THREE.LinearFilter;
-    // woodColor.mag_filter = THREE.LinearFilter;
-    // var woodBump = assets.textures.grassN.val;
-    // var material = new THREE.MeshLambertMaterial({
-    //     map: woodColor,
-    //     bumpMap: woodBump,
-    //     bumpScale: 10000
-    // });
-
     var mesh = new THREE.Mesh( geometry, material );
     mesh.receiveShadow = true;
     mesh.castShadow = true;
@@ -297,9 +211,6 @@ function Terrain(obj){
     mesh.translateZ(-100);
 
     obj.meshes.push(mesh);
-
-    var water = new Water();
-    obj.meshes.push(water);
 
     function generateHeight( width, height ) {
         // Original algorithm
@@ -344,22 +255,83 @@ function Terrain(obj){
 
     }
 
+}
 
-    function Water(){
+function Water(obj){
 
-        var geometry = new THREE.PlaneBufferGeometry( 7500, 7500, worldWidth - 1, worldDepth - 1 );
-        geometry.rotateX( - Math.PI / 2 );
+    var worldWidth = 256, worldDepth = 256;
 
-        var material = new THREE.MeshLambertMaterial( {color: 0x0000ff, transparent: true, opacity: 0.5} );
-        // material.color.setHSL( 0.095, 1, 0.75 );
+    var geometry = new THREE.PlaneBufferGeometry( 7500, 7500, worldWidth - 1, worldDepth - 1 );
+    geometry.rotateX( - Math.PI / 2 );
 
-        var mesh = new THREE.Mesh( geometry, material );
-        mesh.transparent = 0.5;
+    var material = new THREE.MeshLambertMaterial( {color: 0x0000ff, transparent: true, opacity: 0.5} );
+    // material.color.setHSL( 0.095, 1, 0.75 );
 
-        mesh.position.setY(7);
+    var mesh = new THREE.Mesh( geometry, material );
+    mesh.transparent = 0.5;
 
-        return mesh;
+    mesh.position.setY(7);
 
-    }
+    obj.meshes.push(mesh);
+
+}
+
+function Water2(obj){
+
+    var sunDir = new THREE.Vector3(-0.4, 0.7, 0.4);
+
+    var waterNormals = assets.textures.waternormals.val;
+
+    // Create the water effect
+    this.ms_Water = new THREE.Water(webGLRenderer, camera, obj.scene, {
+        textureWidth: 512,
+        textureHeight: 512,
+        waterNormals: waterNormals,
+        alpha: 	0.75,
+        sunDirection: sunDir,
+        sunColor: 0xffffff,
+        // waterColor: 0x001e0f,
+        waterColor: 0x0000ff,
+        distortionScale: 50.0
+    });
+    var aMeshMirror = new THREE.Mesh(
+        new THREE.PlaneBufferGeometry(7500, 7500, 10, 10),
+        this.ms_Water.material
+    );
+    aMeshMirror.add(this.ms_Water);
+    aMeshMirror.rotation.x = - Math.PI * 0.5;
+    aMeshMirror.position.setY(7);
+    obj.meshes.push(aMeshMirror);
+
+}
+
+function Water3(obj){
+
+    var sunDir = new THREE.Vector3(-0.4, 0.7, 0.4);
+
+    // Load textures
+    var waterNormals = new assets.textures.waternormals.val;
+    waterNormals.wrapS = waterNormals.wrapT = THREE.RepeatWrapping;
+
+    // Create the water effect
+    this.ms_Water = new THREE.Water(webGLRenderer, camera, obj.scene, {
+        textureWidth: 256,
+        textureHeight: 256,
+        waterNormals: waterNormals,
+        alpha: 	1.0,
+        sunDirection: sunDir,
+        sunColor: 0xffffff,
+        waterColor: 0x001e0f,
+        betaVersion: 0,
+        side: THREE.DoubleSide
+    });
+    var aMeshMirror = new THREE.Mesh(
+        new THREE.PlaneBufferGeometry(2000, 2000, 10, 10),
+        this.ms_Water.material
+    );
+    aMeshMirror.add(this.ms_Water);
+    aMeshMirror.rotation.x = - Math.PI * 0.5;
+
+    obj.meshes.push(aMeshMirror);
 
 }

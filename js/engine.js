@@ -41,8 +41,10 @@ function load(){
 
     var millisecondsToWait = 500;
 
-    setTimeout(function() {
+    // TODO
+    var loader = setInterval(function() {
         if(assets.isFinished()){
+            clearInterval(loader);
             init();
         }
     }, millisecondsToWait);
@@ -52,7 +54,6 @@ function load(){
 function init(){
 
     webGLRenderer = new THREE.WebGLRenderer();
-    webGLRenderer.setClearColor(new THREE.Color(0x000, 1.0));
     webGLRenderer.setSize( window.innerWidth, window.innerHeight );
     webGLRenderer.shadowMap.enabled = true;
     webGLRenderer.shadowMap.Type = THREE.PCFSoftShadowMap;
