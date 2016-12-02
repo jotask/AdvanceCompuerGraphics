@@ -1,53 +1,65 @@
 /**
- * Created by Jota on 18/11/2016.
+ * Created by Jose Vives Iznardo on 18/11/2016.
  */
+
+// Game state manager controller
 function GameStateManager(){
 
+    // current State
     var state = new SimulationState();
 
+    // Update current state
     this.update = function(){
         state.update();
     };
 
+    // Render current state
     this.render = function(){
         state.render();
     };
 
 }
 
+// Manage all the assets available
 function AssetManager(){
 
+    // Know if all the assets are loaded
     var isFinished = false;
 
+    // Whe the assets are
     const folderModels = "assets/models/";
     const folderTextures = "assets/textures/";
 
+    // Manager to controll all the loaders available
     var manager = new THREE.LoadingManager();
+
+    // What needs to do when is loading the assets
     manager.onProgress = function ( item, loaded, total ) {
-        // console.log( item, loaded, total );
         console.log("Loading assets...");
     };
 
+    // When the assets are all loaded
     manager.onLoad = function () {
         console.log('all items loaded');
         isFinished = true;
     };
 
+    // If an error has ocurred when loading an asset
     manager.onError = function () {
         console.error('there has been an error loading assets');
     };
 
+    // Loader for the texture
     var textureLoader = new THREE.TextureLoader(manager);
+
+    // Loader for the models
     var modelLoader = new THREE.ColladaLoader(manager);
 
+    // Store and acces all the models
     this.textures = {
         waternormals: {
             url: 'waternormals.jpg',
                 scale: 1,
-                val: undefined
-        },uv: {
-            url: 'uv.jpg',
-                scale: 0.05,
                 val: undefined
         },
         carpet: {
@@ -57,12 +69,12 @@ function AssetManager(){
         },
         wall: {
             url: 'wall.jpg',
-            scale: 0.05,
+            scale: 10,
             val: undefined
         },
         wood: {
             url: 'wood.jpg',
-            scale: 0.05,
+            scale: 4,
             val: undefined
         },
         grass: {
@@ -72,16 +84,6 @@ function AssetManager(){
         },
         grassNormal: {
             url: 'grassNormal.png',
-            scale: 100,
-            val: undefined
-        },
-        grassN: {
-            url: 'grassN.bmp',
-            scale: 100,
-            val: undefined
-        },
-        grassHM: {
-            url: 'grassHM.png',
             scale: 100,
             val: undefined
         },
@@ -97,6 +99,7 @@ function AssetManager(){
         }
     };
 
+    // Store and acces all the models
     this.models = {
         door: {
             url : 'Door.dae',
@@ -157,49 +160,53 @@ function AssetManager(){
             url : 'table.dae',
             scale2:{ x: 3, y: 5, z: 3},
             val: undefined
+        },
+        sink: {
+            url : 'sink.dae',
+            scale2:{ x: 3, y: 5, z: 3},
+            val: undefined
         }
     };
 
+    // Load all the assets
     this.load = function(){
 
+        // Iterate all the textures required and load each one
         for(var key in this.textures) {
             loadTexture(this.textures[key]);
         }
 
+        // Iterate all the models required an load each one
         for(var key in this.models){
             loadModel(this.models[key]);
         }
 
     };
 
+    // Know if everything is loaded
     this.isFinished = function(){
-
         return isFinished;
-
     };
 
+    // Load one mode, scale the model and set to cast and receieve shadows
     function loadModel(url){
-
         modelLoader.load(folderModels + url.url, function ( collada ) {
             var dae = collada.scene;
             dae.scale.x = url.scale2.x;
             dae.scale.y = url.scale2.z;
             dae.scale.z = url.scale2.y;
-
             dae.traverse( function ( child ) {
                 if ( child instanceof THREE.Mesh ) {
                     child.castShadow = true;
                     child.receiveShadow = true;
                 }
             } );
-
             dae.updateMatrix();
             url.val = dae;
-
         });
-
     }
 
+    // Load one texture
     function loadTexture(url) {
         textureLoader.load(folderTextures + url.url, function (text) {
             text.wrapS = text.wrapT = THREE.MirroredRepeatWrapping;

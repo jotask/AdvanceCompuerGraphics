@@ -4,9 +4,9 @@
 var camera;
 function Player(scene){
 
-    this.camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 1, 10000 );
-    this.camera.position.set(27, 10, 14);
-    this.camera.lookAt(new THREE.Vector3(0,0,0));
+    this.camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 10000 );
+    this.camera.position.set(25, 75, 125);
+    this.camera.lookAt(new THREE.Vector3(0,25,150));
 
     camera = this.camera;
 
@@ -14,11 +14,5 @@ function Player(scene){
     controls.enableDamping = true;
     controls.dampingFactor = 0.25;
     controls.enableZoom = true;
-
-    this.update = function(){
-        // camControls.update(clock.getDelta());
-        // var p = this.camera.position;
-        // console.log(p.x + " - " + p.z);
-    };
 
 }

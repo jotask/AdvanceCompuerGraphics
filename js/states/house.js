@@ -172,14 +172,15 @@ function LivingRoom(g){
     lamp.position.setZ(15);
     group.add(lamp);
 
-    var light = new THREE.SpotLight(0xffffff, 0.25);
-    light.target.position.set(25, 0, 15);
-    light.target.updateMatrixWorld();
-    light.position.setY(21);
-    light.position.setX(25);
-    light.position.setZ(15);
-    light.angle = Math.PI / 2.25;
-    group.add(light);
+    // var light = new THREE.SpotLight(0xffffff, 0.25);
+    // light.target.position.set(25, 0, 15);
+    // light.target.updateMatrixWorld();
+    // light.castShadow = true;
+    // light.position.setY(21);
+    // light.position.setX(25);
+    // light.position.setZ(15);
+    // light.angle = Math.PI / 2.25;
+    // group.add(light);
 
     g.add(group);
 
@@ -387,6 +388,9 @@ function BathRoom(g){
     toilet.position.setZ(16);
     toilet.rotation.z = -Math.PI / 2;
     group.add(toilet);
+
+    // var sink = assets.models.sink.val;
+    // group.add(sink);
 
 
     var lamp = assets.models.lamptop.val.clone();

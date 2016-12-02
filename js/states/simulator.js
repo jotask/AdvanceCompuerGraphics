@@ -12,6 +12,17 @@ function SimulationState() {
 
     var player = new Player(scene);
 
+    webGLRenderer.shadowMapSoft = true;
+
+    webGLRenderer.shadowCameraNear = 3;
+    webGLRenderer.shadowCameraFar = camera.far;
+    webGLRenderer.shadowCameraFov = 50;
+
+    webGLRenderer.shadowMapBias = 0.0039;
+    // webGLRenderer.shadowMapDarkness = 0.5;
+    webGLRenderer.shadowMapWidth = 2048;
+    webGLRenderer.shadowMapHeight = 2048;
+
     if (DEBUG) {
         // Add the axes
         var axes = new THREE.AxisHelper(1000);
@@ -22,7 +33,7 @@ function SimulationState() {
         scene.add(grid);
     }
 
-    var ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+    var ambientLight = new THREE.AmbientLight(0xffffff, 0.33);
     obj.lights.push(ambientLight);
 
     window.addEventListener('resize', onWindowResize, false);
@@ -33,23 +44,12 @@ function SimulationState() {
         player.camera.updateProjectionMatrix();
 
         webGLRenderer.setSize(window.innerWidth, window.innerHeight);
-        // composer.setSize(window.innerWidth, window.innerHeight);
+        composer.setSize(window.innerWidth, window.innerHeight);
 
     }
 
     new House(obj);
     var world = new World(obj);
-
-    // var l = new THREE.SpotLight(0xff0000, 1);
-    // l.position.set(20, 20, 20);
-    // l.castShadow = true;
-    // l.shadow.mapSize.width = 2048;
-    // l.shadow.mapSize.height = 2048;
-    // l.shadow.camera.near = .01;
-    // l.shadow.camera.far = 4000;
-    // l.shadow.camera.fov = 60;
-    // obj.lights.push(l);
-    // obj.lights.push(new THREE.SpotLightHelper(l));
 
     obj.addToScene(scene);
 
@@ -78,8 +78,7 @@ function SimulationState() {
 
 
     this.update = function () {
-        // FIXME uncomment this line
-        player.update();
+        world.update();
     };
 
     this.render = function () {

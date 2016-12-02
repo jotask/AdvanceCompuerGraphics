@@ -7,74 +7,14 @@ function World(obj){
     new Sky(obj);
     new Terrain(obj);
     var water = new Water2(obj);
-    // new Grass(obj);
+
+    this.update = function(){
+        water.ms_Water.material.uniforms.time.value += 1.0 / 60.0;
+    };
 
     this.render = function(){
-        water.ms_Water.material.uniforms.time.value += 1.0 / 60.0;
         water.ms_Water.render();
     }
-
-}
-
-function Grass(obj){
-
-    const scale = 50;
-
-    var group = new THREE.Group();
-
-    var texture	= assets.textures.grass.val;
-    texture.wrapS	= THREE.RepeatWrapping;
-    texture.wrapT	= THREE.RepeatWrapping;
-    texture.repeat.x= 10
-    texture.repeat.y= 10
-    texture.anisotropy = webGLRenderer.getMaxAnisotropy()
-
-    // // build object3d
-    // var geometry	= new THREE.PlaneGeometry(20, 20)
-    // var material	= new THREE.MeshLambertMaterial({
-    //     map	: texture,
-    //     emissive: 'green'
-    // })
-    // var object3d	= new THREE.Mesh(geometry, material)
-    // object3d.rotateX(-Math.PI/2)
-    // object3d.scale.set(scale, scale, scale)
-    // group.add(object3d)
-
-    var mesh = createGrass(100, assets.x.grass01.val)
-    mesh.scale.set(scale, scale, scale)
-    group.add(mesh)
-
-    var mesh = createGrass(100, assets.x.grass02.val)
-    mesh.scale.set(scale, scale, scale)
-    group.add(mesh)
-
-    var mesh = createGrass(100, assets.x.flowers01.val)
-    mesh.scale.set(scale, scale, scale)
-    group.add(mesh)
-
-    var mesh = createGrass(100, assets.x.flowers02.val)
-    mesh.scale.set(scale, scale, scale)
-    group.add(mesh)
-
-    function createGrass(iterations, texture){
-        var nTufts	= iterations
-        var positions	= new Array(nTufts)
-        for(var i = 0; i < nTufts; i++){
-            var position	= new THREE.Vector3()
-            position.x	= (Math.random()-0.5)*20
-            position.z	= (Math.random()-0.5)*20
-            positions[i]	= position
-        }
-        var mesh	= THREEx.createGrassTufts(positions)
-
-        var material		= mesh.material
-        material.map		= texture
-        material.alphaTest	= 0.7
-
-        return mesh;
-    }
-
-    obj.meshes.push(group)
 
 }
 
@@ -131,8 +71,8 @@ function Sky(obj){
 
 function Sun(obj){
 
-    // LIGHTS
-    // var hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.5 );
+    // // LIGHTS
+    // var hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.25 );
     // hemiLight.color.setHSL( 0.6, 1, 0.6 );
     // hemiLight.groundColor.setHSL( 0.095, 1, 0.75 );
     // // FIXME Original position y=500
@@ -142,7 +82,7 @@ function Sun(obj){
     //     obj.lights.push(new THREE.HemisphereLightHelper(hemiLight, 10));
     // }
 
-    var dirLight = new THREE.DirectionalLight( 0xffffff, 1 );
+    var dirLight = new THREE.DirectionalLight( 0xffffff, 0.25 );
     dirLight.color.setHSL( 0.1, 1, 0.95 );
     dirLight.position.set( -1, 1.75, 1 );
     dirLight.position.multiplyScalar( 100 );
@@ -170,11 +110,7 @@ function Terrain(obj){
 
     // https://threejs.org/examples/webgl_geometry_terrain.html
 
-    // var seed = Math.random();
-
-    // noise.seed(Math.random());
     noise.seed(23);
-    // noise.seed(0.2624946413746967);
 
     var worldWidth = 256, worldDepth = 256;
 
