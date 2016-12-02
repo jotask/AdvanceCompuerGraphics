@@ -187,11 +187,9 @@ THREE.ColladaLoader.prototype = {
 
 		function parseImage( xml ) {
 
-			var data = {
-				init_from: getElementsByTagName( xml, 'init_from' )[ 0 ].textContent
-			};
-
-			library.images[ xml.getAttribute( 'id' ) ] = data;
+			library.images[ xml.getAttribute( 'id' ) ] = {
+                init_from: getElementsByTagName( xml, 'init_from' )[ 0 ].textContent
+            };
 
 		}
 

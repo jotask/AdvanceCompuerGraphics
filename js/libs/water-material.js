@@ -142,9 +142,8 @@ THREE.Water = function (renderer, camera, scene, options) {
 
 	function optionalParameter (value, defaultValue) {
 		return value !== undefined ? value : defaultValue;
-	};
-
-	options = options || {};
+    }
+    options = options || {};
 	
 	this.matrixNeedsUpdate = true;
 	

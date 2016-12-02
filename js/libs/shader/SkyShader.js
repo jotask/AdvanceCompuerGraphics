@@ -220,10 +220,9 @@ THREE.Sky = function (size) {
 	} );
 
 	var skyGeo = new THREE.SphereBufferGeometry( size, 32, 15 );
-	var skyMesh = new THREE.Mesh( skyGeo, skyMat );
 
 	// Expose variables
-	this.mesh = skyMesh;
+	this.mesh = new THREE.Mesh( skyGeo, skyMat );
 	this.uniforms = skyUniforms;
 
 };

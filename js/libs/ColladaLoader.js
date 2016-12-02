@@ -1106,9 +1106,6 @@ THREE.ColladaLoader = function () {
 
 					console.log( 'ColladaLoader: Morph-controller partially supported.' );
 
-				default:
-					break;
-
 			}
 
 		}
@@ -2409,6 +2406,7 @@ THREE.ColladaLoader = function () {
 			case 'rotate':
 
 				this.angle = THREE.Math.degToRad( this.data[3] );
+				break;
 
 			case 'translate':
 
@@ -5078,7 +5076,7 @@ THREE.ColladaLoader = function () {
 
 		for ( var i = 0, l = raw.length; i < l; i ++ ) {
 
-			data.push( (raw[i] === 'true' || raw[i] === '1') ? true : false );
+			data.push( (raw[i] === 'true' || raw[i] === '1') );
 
 		}
 

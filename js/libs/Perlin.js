@@ -65,7 +65,7 @@
 
     for(var i = 0; i < 256; i++) {
       var v;
-      if (i & 1) {
+      if (i && 1) {
         v = p[i] ^ (seed & 255);
       } else {
         v = p[i] ^ ((seed>>8) & 255);
