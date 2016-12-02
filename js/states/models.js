@@ -1,6 +1,8 @@
 /**
- * Created by Jota on 29/11/2016.
+ * Created by Jose Vives Iznardo on 29/11/2016.
  */
+
+// Model a table
 function Table(){
 
     const legS = 1;
@@ -65,6 +67,7 @@ function Table(){
 
 }
 
+// Model a chair
 function Chair(){
 
     const legS = 0.5;
@@ -138,6 +141,7 @@ function Chair(){
 
 }
 
+// Model the carpet
 function Carpet(){
 
     const width = 30;

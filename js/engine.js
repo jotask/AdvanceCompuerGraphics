@@ -4,6 +4,7 @@
 
 // Show debug information on the scene
 const DEBUG = false;
+const ROOF = false;
 
 // Global variables
 var gsm;
@@ -15,8 +16,10 @@ var assets;
 // Class to store all the objects, so when al the objects are created add this into the scene
 function Objects(sce){
 
+    // The scene where we need to add all the objects
     this.scene = sce;
 
+    // Store meshes and lights
     this.meshes = [];
     this.lights = [];
 
@@ -89,6 +92,7 @@ function init(){
 // Render one frame
 function render(){
 
+    // Call this function again
     requestAnimationFrame(render);
 
     // Update before render

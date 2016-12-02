@@ -29,8 +29,9 @@ function AssetManager(){
     // Whe the assets are
     const folderModels = "assets/models/";
     const folderTextures = "assets/textures/";
+    const folderAnimations = "assets/animated/";
 
-    // Manager to controll all the loaders available
+    // Manager to control all the loaders available
     var manager = new THREE.LoadingManager();
 
     // What needs to do when is loading the assets
@@ -55,6 +56,9 @@ function AssetManager(){
     // Loader for the models
     var modelLoader = new THREE.ColladaLoader(manager);
 
+    // Loader for animations
+    var animatedLoader = new THREE.JSONLoader(manager);
+
     // Store and acces all the models
     this.textures = {
         waternormals: {
@@ -69,12 +73,12 @@ function AssetManager(){
         },
         wall: {
             url: 'wall.jpg',
-            scale: 10,
+            scale: 0.1,
             val: undefined
         },
         wood: {
             url: 'wood.jpg',
-            scale: 4,
+            scale: 0.1,
             val: undefined
         },
         grass: {
@@ -163,7 +167,25 @@ function AssetManager(){
         },
         sink: {
             url : 'sink.dae',
-            scale2:{ x: 3, y: 5, z: 3},
+            scale2:{ x: 0.25, y: 0.25, z: 0.25},
+            val: undefined
+        }
+    };
+
+    // Hold all the animations
+    this.animation = {
+        fox: {
+            url: 'fox.js',
+            scale: { x: 0.25, y: 0.25, z: 0.25 },
+            g: undefined,
+            m: undefined,
+            val: undefined
+        },
+        eagle: {
+            url: 'eagle.js',
+            scale: { x: 0.1, y: 0.1, z: 0.1 },
+            g: undefined,
+            m: undefined,
             val: undefined
         }
     };
@@ -179,6 +201,11 @@ function AssetManager(){
         // Iterate all the models required an load each one
         for(var key in this.models){
             loadModel(this.models[key]);
+        }
+
+        // Iterate all the animations required an load each one
+        for(var key in this.animation){
+            loadAnimation(this.animation[key]);
         }
 
     };
@@ -213,6 +240,26 @@ function AssetManager(){
             text.repeat.set(url.scale, url.scale);
             url.val = text;
         });
+    }
+
+    // Load an animation
+    function loadAnimation(url){
+
+        animatedLoader.load( folderAnimations + url.url, function( geometry ) {
+
+
+            var material = new THREE.MeshPhongMaterial( { color: 0xffffff, specular: 0xffffff, shininess: 20, morphTargets: true, vertexColors: THREE.FaceColors, shading: THREE.FlatShading } );
+            var mesh = new THREE.Mesh( geometry, material );
+            mesh.scale.set( url.scale.x, url.scale.y, url.scale.z );
+            mesh.castShadow = true;
+            mesh.receiveShadow = true;
+
+            url.g = geometry;
+            url.material = material;
+            url.val = mesh;
+
+        } );
+
     }
 
 }

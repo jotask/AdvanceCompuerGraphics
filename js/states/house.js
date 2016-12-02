@@ -1,35 +1,45 @@
 /**
- * Created by Jota on 20/11/2016.
+ * Created by Jose Vives Iznardo on 20/11/2016.
  */
 
+// Create the house
 function House(obj){
 
+    // Store everything in one object
     var group = new THREE.Group();
 
+    // Create each room in the house
     new LivingRoom(group);
     new BedRoomOne(group);
     new BedRoomTwo(group);
     new BathRoom(group);
     new Kitchen(group);
-
     new Passage(group);
 
-    // new Roof(group);
+    if(ROOF) {
+        new Roof(group);
+    }
 
+    // Move the house
     group.translateY(10.5);
 
+    // Add the house
     obj.meshes.push(group);
 
 }
 
+// Create the Roof
 function Roof(g){
 
+    // Set the roof offset
     const offset = 10;
 
+    // Set the roof size
     const w = 50 + (offset);
     const h = 20;
     const d = 97 + (offset);
 
+    // Array to store materials
     var materials = [];
 
     var tiles = new THREE.MeshLambertMaterial({
@@ -42,12 +52,11 @@ function Roof(g){
         side: THREE.DoubleSide
     });
 
-
     materials.push(tiles);
     materials.push(sides);
 
+    // Create roof geometry
     var geometry = new THREE.Geometry();
-
     geometry.vertices.push(
         new THREE.Vector3(0, 0, 0),
         new THREE.Vector3(0, 0, d),
@@ -69,6 +78,7 @@ function Roof(g){
     geometry.faces.push(new THREE.Face3(0, 3, 4));
     geometry.faces.push(new THREE.Face3(1, 2, 5));
 
+    // Map uv textures
     var uvs = [
         new THREE.Vector2(0, 0),
         new THREE.Vector2(1, 0),
@@ -76,7 +86,6 @@ function Roof(g){
         new THREE.Vector2(0, 1)
 
     ];
-
 
     geometry.faceVertexUvs[0][0] = [ uvs[0], uvs[1], uvs[2] ];
     geometry.faceVertexUvs[0][1] = [ uvs[0], uvs[1], uvs[2] ];
@@ -97,10 +106,10 @@ function Roof(g){
     geometry.faces[7].materialIndex = 1;
 
     geometry.sortFacesByMaterialIndex();
-
     geometry.computeFaceNormals();
     geometry.computeVertexNormals();
 
+    // Create the roof
     var mat = new THREE.MultiMaterial(materials);
     var mesh = new THREE.Mesh(geometry, mat);
 
@@ -115,6 +124,7 @@ function Roof(g){
 
 }
 
+// Create the living room
 function LivingRoom(g){
 
     var group = new THREE.Group();
@@ -186,6 +196,7 @@ function LivingRoom(g){
 
 }
 
+// Create the passage
 function Passage(g){
 
     var group = new THREE.Group();
@@ -214,6 +225,7 @@ function Passage(g){
 
 }
 
+// Create the bedroom
 function BedRoomOne(g){
 
     var group = new THREE.Group();
@@ -275,6 +287,7 @@ function BedRoomOne(g){
 
 }
 
+// Create other bedroom
 function BedRoomTwo(g){
 
     var group = new THREE.Group();
@@ -317,6 +330,7 @@ function BedRoomTwo(g){
 
 }
 
+// Create the kitchen
 function Kitchen(g){
 
     var group = new THREE.Group();
@@ -358,6 +372,7 @@ function Kitchen(g){
 
 }
 
+// Create the bathroom
 function BathRoom(g){
 
     var group = new THREE.Group();
@@ -389,9 +404,12 @@ function BathRoom(g){
     toilet.rotation.z = -Math.PI / 2;
     group.add(toilet);
 
-    // var sink = assets.models.sink.val;
-    // group.add(sink);
-
+    var sink = assets.models.sink.val;
+    sink.rotation.z = -Math.PI / 2;
+    sink.position.setY(5);
+    sink.position.setZ(7);
+    sink.position.setX(15);
+    group.add(sink);
 
     var lamp = assets.models.lamptop.val.clone();
     lamp.rotation.y = Math.PI;
@@ -416,6 +434,7 @@ function BathRoom(g){
 
 }
 
+// Configuration to use for create each room
 function RoomDef(){
 
     this.WALLTYPE = {
@@ -435,10 +454,10 @@ function RoomDef(){
     this.windows = [];
 
     this.materials = {
-        FLOOR:      new THREE.MeshLambertMaterial( { map: assets.textures.wood.val } ),
+        FLOOR:      new THREE.MeshPhongMaterial( { map: assets.textures.wood.val, shininess: 100 } ),
         WALLS:      new THREE.MeshLambertMaterial( { map: assets.textures.wall.val } ),
         CELLING:    new THREE.MeshLambertMaterial( { map: assets.textures.wall.val } )
-    }
+    };
 
     this.WALLS = {
         LEFT : { value: 0, TYPE: this.WALLTYPE.SIMPLE },
@@ -460,20 +479,23 @@ function RoomDef(){
 
 }
 
-function Room(config){
+// Function for create room
+function Room(config) {
 
     const cfg = config;
 
     this.group = new THREE.Group();
 
     var floor = createFloor(cfg.materials.FLOOR);
-    floor.rotation.x = Math.PI/2;
+    floor.rotation.x = Math.PI / 2;
     this.group.add(floor);
 
-    var celling = createWall(cfg.size.x + cfg.wallDepth - 0.1, cfg.size.y + cfg.wallDepth - 0.1, cfg.materials.CELLING);
-    celling.rotation.x = Math.PI/2;
-    celling.position.setY(cfg.cellingSize + 1);
-    // this.group.add(celling);
+    if (ROOF) {
+        var celling = createWall(cfg.size.x + cfg.wallDepth - 0.1, cfg.size.y + cfg.wallDepth - 0.1, cfg.materials.CELLING);
+        celling.rotation.x = Math.PI / 2;
+        celling.position.setY(cfg.cellingSize + 1);
+        this.group.add(celling);
+    }
 
     if(cfg.WALLS.LEFT.TYPE !== cfg.WALLTYPE.EMPTY) {
         var leftWall = create(cfg.WALLS.LEFT);
@@ -545,15 +567,11 @@ function Room(config){
         rectShape.lineTo( 0, height );           // 7
         rectShape.lineTo( 0, 0 );           // 8
 
-        var mesh = createMeshFromShape(rectShape, material);
-        mesh.castShadow = true;
-        mesh.receiveShadow = true;
-
-        return mesh;
+        return createMeshFromShape(rectShape, material);
 
     }
 
-    function createWallWithWindow(wall, width, height, material) {
+    function createWallWithWindow(wall, width, height) {
 
         var shape = new THREE.Shape();
         shape.moveTo(0, 0);
@@ -626,60 +644,60 @@ function Room(config){
 
     function createMeshFromShape(shape, material){
         var geometry = new THREE.ExtrudeGeometry( shape, cfg.extrudeSettings );
-        geometry.computeBoundingBox();
-
-        var max = geometry.boundingBox.max;
-        var min = geometry.boundingBox.min;
-
-        var offset = new THREE.Vector2(0 - min.x, 0 - min.y);
-        var range = new THREE.Vector2(max.x - min.x, max.y - min.y);
-
-        var faces = geometry.faces;
 
         geometry.faceVertexUvs[0] = [];
 
-        for (var i = 0; i < faces.length ; i++) {
+        geometry.faces.forEach(function(face) {
 
-            var v1 = geometry.vertices[faces[i].a],
-                v2 = geometry.vertices[faces[i].b],
-                v3 = geometry.vertices[faces[i].c];
+            var components = ['x', 'y', 'z'].sort(function(a, b) {
+                return Math.abs(face.normal[a]) > Math.abs(face.normal[b]);
+            });
+
+            var v1 = geometry.vertices[face.a];
+            var v2 = geometry.vertices[face.b];
+            var v3 = geometry.vertices[face.c];
 
             geometry.faceVertexUvs[0].push([
-                new THREE.Vector2((v1.x + offset.x)/range.x ,(v1.y + offset.y)/range.y),
-                new THREE.Vector2((v2.x + offset.x)/range.x ,(v2.y + offset.y)/range.y),
-                new THREE.Vector2((v3.x + offset.x)/range.x ,(v3.y + offset.y)/range.y)
+                new THREE.Vector2(v1[components[0]], v1[components[1]]),
+                new THREE.Vector2(v2[components[0]], v2[components[1]]),
+                new THREE.Vector2(v3[components[0]], v3[components[1]])
             ]);
-        }
+
+        });
+
         geometry.uvsNeedUpdate = true;
 
         var mesh = new THREE.Mesh( geometry, material);
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
+
         return mesh;
+
     }
 
     function create(wall){
 
         switch(wall){
             case cfg.WALLS.LEFT:
-                var wall = createFromType( wall, cfg.size.x, cfg.cellingSize);
-                wall.position.setX(0.0005);
-                wall.position.setZ(-0.0005);
-                return wall;
+                var w = createFromType( wall, cfg.size.x, cfg.cellingSize);
+                w.position.setX(0.0005);
+                w.position.setZ(-0.0005);
+                return w;
             case cfg.WALLS.RIGHT:
-                var wall = createFromType(wall, cfg.size.x + cfg.wallDepth, cfg.cellingSize);
-                wall.position.setZ(cfg.size.y);
-                return wall;
+                var w = createFromType(wall, cfg.size.x + cfg.wallDepth, cfg.cellingSize);
+                w.position.setZ(cfg.size.y);
+                return w;
             case cfg.WALLS.FRONT:
-                var wall = createFromType(wall, cfg.size.y, cfg.cellingSize);
-                wall.rotation.y = Math.PI / 2;
-                wall.position.setZ(cfg.size.y);
-                return wall;
-                break;
+                var w = createFromType(wall, cfg.size.y, cfg.cellingSize);
+                w.rotation.y = Math.PI / 2;
+                w.position.setZ(cfg.size.y);
+                return w;
             case cfg.WALLS.BACK:
-                var wall = createFromType(wall, cfg.size.y, cfg.cellingSize);
-                wall.rotation.y = Math.PI / 2;
-                wall.position.setZ(cfg.size.y);
-                wall.position.setX(cfg.size.x);
-                return wall;
+                var w = createFromType(wall, cfg.size.y, cfg.cellingSize);
+                w.rotation.y = Math.PI / 2;
+                w.position.setZ(cfg.size.y);
+                w.position.setX(cfg.size.x);
+                return w;
             default:
                 return undefined;
         }
@@ -703,6 +721,7 @@ function Room(config){
 
 }
 
+// First function to create room, only uses planes
 function RoomPlane(p, size){
 
     const cellingSize = 24;
@@ -781,6 +800,8 @@ function RoomPlane(p, size){
         geometry.computeFaceNormals();
         var material = new THREE.MeshLambertMaterial( { color: 0xff0000, side:THREE.DoubleSide } );
         var mesh = new THREE.Mesh(geometry, material);
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
         return mesh;
     }
 
