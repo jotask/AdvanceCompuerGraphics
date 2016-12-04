@@ -1,7 +1,6 @@
 /**
  * Created by Jose Vives Iznardo on 20/11/2016.
  */
-
 // Create the house
 function House(obj){
 
@@ -277,9 +276,10 @@ function BedRoomOne(g){
     lavalamp.position.setZ(27);
     group.add(lavalamp);
 
-    var light = new THREE.PointLight(0xffffff, 0.25);
-    light.position.set(15, 10, 25);
-    group.add(light);
+    // var light = new THREE.PointLight(0xff0000, 1);
+    // light.position.set(15, 10, 25);
+    // light.castShadow = true;
+    // group.add(light);
 
     group.position.set(0, 0, 35.5);
 
@@ -454,9 +454,9 @@ function RoomDef(){
     this.windows = [];
 
     this.materials = {
-        FLOOR:      new THREE.MeshPhongMaterial( { map: assets.textures.wood.val, shininess: 100 } ),
-        WALLS:      new THREE.MeshLambertMaterial( { map: assets.textures.wall.val } ),
-        CELLING:    new THREE.MeshLambertMaterial( { map: assets.textures.wall.val } )
+        FLOOR:      new THREE.MeshPhongMaterial( { map: assets.textures.wood.val, shininess: 100, shading: THREE.SmoothShading } ),
+        WALLS:      new THREE.MeshLambertMaterial( { map: assets.textures.wall.val, shading: THREE.SmoothShading } ),
+        CELLING:    new THREE.MeshLambertMaterial( { map: assets.textures.wall.val, shading: THREE.SmoothShading } )
     };
 
     this.WALLS = {

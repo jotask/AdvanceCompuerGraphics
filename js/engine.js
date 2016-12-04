@@ -70,8 +70,8 @@ function init(){
     webGLRenderer.setSize( window.innerWidth, window.innerHeight );
     webGLRenderer.shadowMap.enabled = true;
     webGLRenderer.shadowMap.Type = THREE.PCFSoftShadowMap;
-    webGLRenderer.gammaInput = true;
-    webGLRenderer.gammaOutput = true;
+    // webGLRenderer.gammaInput = true;
+    // webGLRenderer.gammaOutput = true;
     webGLRenderer.setPixelRatio(window.devicePixelRatio);
     webGLRenderer.shadowMap.renderReverseSided = false;
     document.body.appendChild(webGLRenderer.domElement);

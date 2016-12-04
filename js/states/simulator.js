@@ -23,7 +23,7 @@ function SimulationState() {
     webGLRenderer.shadowCameraFar = camera.far;
     webGLRenderer.shadowCameraFov = 50;
     webGLRenderer.shadowMapBias = 0.0039;
-    // webGLRenderer.shadowMapDarkness = 0.5;
+    webGLRenderer.shadowMapDarkness = 0.5;
     webGLRenderer.shadowMapWidth = 2048;
     webGLRenderer.shadowMapHeight = 2048;
 
@@ -41,16 +41,6 @@ function SimulationState() {
     // Ambient light
     var ambientLight = new THREE.AmbientLight(0xffffff, 0.33);
     obj.lights.push(ambientLight);
-
-    // Add the event listener for when the screen is resized
-    window.addEventListener('resize', onWindowResize, false);
-    function onWindowResize() {
-        // Update the camera aspect and the renderer size
-        player.camera.aspect = window.innerWidth / window.innerHeight;
-        player.camera.updateProjectionMatrix();
-        webGLRenderer.setSize(window.innerWidth, window.innerHeight);
-        composer.setSize(window.innerWidth, window.innerHeight);
-    }
 
     // Create the world
     var world = new World(obj);
@@ -76,6 +66,17 @@ function SimulationState() {
     composer.addPass( effectBleach );
     composer.addPass( effectColor );
     composer.addPass( effectFXAA );
+
+    // Add the event listener for when the screen is resized
+    window.addEventListener('resize', onWindowResize, false);
+    function onWindowResize() {
+        // Update the camera aspect and the renderer size
+        player.camera.aspect = window.innerWidth / window.innerHeight;
+        player.camera.updateProjectionMatrix();
+        webGLRenderer.setSize(window.innerWidth, window.innerHeight);
+        effectFXAA.uniforms[ 'resolution' ].value.set( 1 / window.innerWidth, 1 / window.innerHeight );
+        composer.setSize(window.innerWidth, window.innerHeight);
+    }
 
     // Update everything is needed
     this.update = function () {

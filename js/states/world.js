@@ -7,7 +7,7 @@ function World(obj){
 
     // Create the lights that simulate a sun
     new Sun(obj);
-
+    //
     // Create the skybox
     new Sky(obj);
 
@@ -55,7 +55,7 @@ function Sky(obj){
     );
     sunSphere.position.y = - 700000;
     sunSphere.visible = false;
-    group.add( sunSphere );
+    // group.add( sunSphere );
 
     obj.meshes.push(group);
 
@@ -96,7 +96,7 @@ function Sky(obj){
 function Sun(obj){
 
     // Directional Light that simulate the sun
-    var dirLight = new THREE.DirectionalLight( 0xffffff, 0.25 );
+    var dirLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
     dirLight.color.setHSL( 0.1, 1, 0.95 );
     dirLight.position.set( -1, 1.75, 1 );
     dirLight.position.multiplyScalar( 100 );
@@ -114,8 +114,8 @@ function Sun(obj){
     dirLight.shadow.camera.right = d;
     dirLight.shadow.camera.top = d;
     dirLight.shadow.camera.bottom = -d;
-    dirLight.shadow.camera.far = 3500;
-    dirLight.shadow.bias = -0.0001;
+    dirLight.shadow.camera.far = 1000;
+    dirLight.shadow.bias = -0.001;
 
 }
 
@@ -274,21 +274,27 @@ function Bird(obj){
 function Fox(obj){
 
     // Fox velocity
-    const speed = 0.5;
+    const speed = 1;
 
     var mesh = assets.animation.fox.val;
     var g = assets.animation.fox.g;
 
     // Create the animation
     var mixer = new THREE.AnimationMixer( mesh );
-    mixer.clipAction( g.animations[ 0 ] ).setDuration( 1 ).play();
-    mesh.position.set(100, 9, -300);
+    mixer.clipAction( g.animations[0] ).setDuration( 0.20 ).play();
+    mesh.position.set(100, 9, 0);
 
     obj.meshes.push(mesh);
+
+    const range = 150;
 
     // Update the fox position
     this.update = function(){
         mixer.update(clock.getDelta() * 100);
+
+        if((mesh.position.z > range) || (mesh.position.z < -range)){
+            mesh.rotation.y += Math.PI;
+        }
         mesh.translateZ(speed);
     }
 
